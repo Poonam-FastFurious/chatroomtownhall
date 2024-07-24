@@ -1,0 +1,7 @@
+.slick-slide {
+  padding: 0 4px; /* Adjust padding as needed for gap */
+}
+
+.slick-slide > div {
+  padding: 4px; /* Adjust padding for internal slide content */
+}
