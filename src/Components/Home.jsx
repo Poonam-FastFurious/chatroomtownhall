@@ -386,7 +386,11 @@ function Home() {
                                   <span className="align-middle text-black">
                                     {new Date(
                                       chat.createdAt
-                                    ).toLocaleTimeString()}{" "}
+                                    ).toLocaleTimeString([], {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                      hour12: true, // Use `false` for 24-hour format, `true` for 12-hour format with AM/PM
+                                    })}
                                   </span>
                                 </p>
                               </div>
