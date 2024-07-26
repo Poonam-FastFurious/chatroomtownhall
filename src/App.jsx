@@ -3,6 +3,7 @@ import "../src/assets/css/tailwind2.css";
 import Home from "./Components/Home";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 function App() {
   return (
     <>

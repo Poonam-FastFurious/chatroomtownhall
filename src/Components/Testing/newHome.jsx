@@ -12,15 +12,18 @@ import ProfileSettings from "./ProfileSettings";
 import { Link } from "react-router-dom";
 import { Baseurl } from "../Config";
 import { useSocket } from "../SocketContext";
+import axios from "axios";
 
 function Home() {
   const { socket } = useSocket();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [chatId, setChatId] = useState(""); // Initialize chatId state
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [chatData, setChatData] = useState([]);
   const userId = Cookies.get("userId");
+  const accessToken = Cookies.get("accessToken");
   const messagesEndRef = useRef(null);
   const [activeTab, setActiveTab] = useState("chatlist");
   const [showChat, setShowChat] = useState(false);
@@ -105,14 +108,6 @@ function Home() {
   const handleMenuClick = (tab) => {
     setActiveTab(tab);
   };
-  const handleUserClick = (user) => {
-    if (selectedUser && selectedUser._id === user._id) {
-      setShowChat(!showChat); // Toggle chat visibility
-      return;
-    }
-    setSelectedUser(user);
-    setShowChat(true);
-  };
 
   useEffect(() => {
     if (socket) {
@@ -132,12 +127,41 @@ function Home() {
     // Scroll to the bottom when messages change
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (message.trim()) {
-      socket.emit("message", { text: message });
-      setMessage("");
+      try {
+        const response = await axios.post(
+          Baseurl + "/api/v1/message",
+          { content: message, chatId },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        const newMessage = response.data;
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+        socket.emit("message", newMessage);
+        setMessage("");
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
+  };
+  const changeChat = (newChatId) => {
+    setChatId(newChatId);
+    setMessages([]); // Reset messages when changing chat
+  };
+  const handleUserClick = (user) => {
+    if (selectedUser && selectedUser._id === user._id) {
+      setShowChat(!showChat); // Toggle chat visibility
+      return;
+    }
+    setSelectedUser(user);
+    setShowChat(true);
+    changeChat(user._id); // Update chat ID
   };
 
   return (

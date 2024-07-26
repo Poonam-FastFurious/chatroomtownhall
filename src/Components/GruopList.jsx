@@ -57,7 +57,7 @@ function GruopList() {
 
   const handleSave = async () => {
     // Ensure the user ID is fetched from local storage
-    const userId = localStorage.getItem("userId");
+    const userId = Cookies.get("userId");
 
     // Include the user's ID in the selected users list if not already present
     const finalSelectedUsers = selectedUsers.includes(userId)
