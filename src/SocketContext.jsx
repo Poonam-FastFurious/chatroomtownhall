@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import io from "socket.io-client";
 import Cookies from "js-cookie";
+
 const SocketContext = createContext();
 
 export const useSocket = () => useContext(SocketContext);
@@ -13,13 +14,27 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    // Retrieve the user ID from local storage or any other state management
+    // Retrieve the user ID from cookies
     const userId = Cookies.get("userId");
+
+    // Check if userId is present
+    if (!userId) {
+      console.error("User ID not found in cookies");
+      return;
+    }
 
     // Initialize Socket.IO connection with user ID as a query parameter
     const socketIo = io(SOCKET_URL, {
       withCredentials: true, // Include credentials in requests
       query: { userId }, // Pass user ID as a query parameter
+    });
+
+    socketIo.on("connect", () => {
+      console.log(`Connected to socket server with userId: ${userId}`);
+    });
+
+    socketIo.on("connect_error", (error) => {
+      console.error("Connection error:", error);
     });
 
     setSocket(socketIo);

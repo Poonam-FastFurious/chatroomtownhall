@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Cookies from "js-cookie";
 import bgimage from "../assets/images/chatbackend.jpeg";
-import Slider from "react-slick";
+
 import Asidemenu from "./Asidemenu";
 import CreateGroup from "./CreateGroup";
 import GruopList from "./GruopList";
@@ -12,47 +12,22 @@ import ProfileSettings from "./ProfileSettings";
 import { Link } from "react-router-dom";
 import { Baseurl } from "../Config";
 import { useSocket } from "../SocketContext";
+import axios from "axios";
 
 function Home() {
   const { socket } = useSocket();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [chatId, setChatId] = useState("");
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [chatData, setChatData] = useState([]);
   const userId = Cookies.get("userId");
+  const accessToken = Cookies.get("accessToken");
   const messagesEndRef = useRef(null);
   const [activeTab, setActiveTab] = useState("chatlist");
   const [showChat, setShowChat] = useState(false);
-  var settings = {
-    slidesToShow: 4, // Show 4 items
-    slidesToScroll: 1, // Scroll 1 item at a time
-    infinite: false, // Disable infinite loop
-    speed: 500, // Transition speed
-    margin: 16, // Margin between slides (not directly supported by slick but can be managed with CSS)
-    arrows: false, // Hide navigation arrows
-    dots: false, // Hide dots
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-        },
-      },
-    ],
-  };
+
   useEffect(() => {
     const token = Cookies.get("accessToken");
 
@@ -105,14 +80,6 @@ function Home() {
   const handleMenuClick = (tab) => {
     setActiveTab(tab);
   };
-  const handleUserClick = (user) => {
-    if (selectedUser && selectedUser._id === user._id) {
-      setShowChat(!showChat); // Toggle chat visibility
-      return;
-    }
-    setSelectedUser(user);
-    setShowChat(true);
-  };
 
   useEffect(() => {
     if (socket) {
@@ -132,12 +99,54 @@ function Home() {
     // Scroll to the bottom when messages change
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (message.trim()) {
-      socket.emit("message", { text: message });
-      setMessage("");
+      const tempMessage = {
+        content: message,
+        chatId,
+
+        sender: { _id: userId }, // Replace with actual sender info if needed
+        createdAt: new Date().toISOString(),
+      };
+
+      try {
+        // Emit the message to the socket
+        socket.emit("message", tempMessage);
+
+        // Call the API to save the message
+        const response = await axios.post(
+          `${Baseurl}/api/v1/message`,
+          { content: message, chatId },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        console.log(response);
+
+        setMessage("");
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
     }
+  };
+
+  const changeChat = (newChatId) => {
+    setChatId(newChatId);
+    setMessages([]); // Reset messages when changing chat
+  };
+  const handleUserClick = (user) => {
+    if (selectedUser && selectedUser._id === user._id) {
+      setShowChat(!showChat); // Toggle chat visibility
+      return;
+    }
+    setSelectedUser(user);
+    setShowChat(true);
+    changeChat(user._id); // Update chat ID
   };
 
   return (
@@ -163,53 +172,7 @@ function Home() {
               </div>
             </div>
 
-            <div className="px-6 pb-6">
-              <Slider
-                {...settings}
-                className="owl-carousel owl-theme"
-                id="user-status-carousel"
-              >
-                {users.slice(0, 5).map((user, index) => (
-                  <div key={index} className="text-center">
-                    <Link
-                      to="#"
-                      className="block p-2 mt-4 rounded bg-slate-100"
-                      onClick={() => handleUserClick(user)}
-                    >
-                      <div className="relative">
-                        {user.placeholder ? (
-                          <div className="flex items-center justify-center w-9 h-9 mx-auto bg-violet-500/20 rounded-full">
-                            <span className="text-violet-500">T</span>
-                          </div>
-                        ) : (
-                          <img
-                            src="https://themesbrand.com/chatvia-tailwind/layouts/assets/images/avatar-2.jpg"
-                            alt="user-img"
-                            className="mx-auto rounded-full w-9 h-9"
-                          />
-                        )}
-                        <span className="absolute w-2.5 h-2.5 bg-green-400 border-2 border-white rounded-full top-7 lg:right-5 "></span>
-                      </div>
-                      <h5 className="mt-4 mb-0 truncate text-13 ">
-                        {user.isGroupChat
-                          ? user.chatName
-                          : user.users.find((u) => u._id !== userId)
-                          ? `${
-                              user.users.find((u) => u._id !== userId).firstName
-                            } ${
-                              user.users.find((u) => u._id !== userId).lastName
-                            }`
-                          : "Unknown User"}
-                      </h5>
-                    </Link>
-                  </div>
-                ))}
-              </Slider>
-            </div>
-
             <div>
-              <h5 className="px-6 mb-4 text-16 ">Recent</h5>
-
               <div className="h-[610px] px-2" data-simplebar>
                 <ul className="chat-user-list">
                   {users.map((chat, index) => (
@@ -396,7 +359,7 @@ function Home() {
               </div>
 
               <div
-                className=" chat-container h-[75vh] p-4 lg:p-6  overflow-y-auto"
+                className="chat-container h-[75vh] p-4 lg:p-6 overflow-y-auto"
                 style={{ backgroundImage: `url(${bgimage})` }}
               >
                 <ul className="mb-0">
@@ -443,7 +406,7 @@ function Home() {
                                     ).toLocaleTimeString([], {
                                       hour: "2-digit",
                                       minute: "2-digit",
-                                      hour12: true, // Use `false` for 24-hour format, `true` for 12-hour format with AM/PM
+                                      hour12: true,
                                     })}
                                   </span>
                                 </p>
@@ -470,12 +433,12 @@ function Home() {
                       <li className="clear-both py-4" key={index}>
                         <div
                           className={`flex items-end gap-3 ${
-                            chat.userId === userId
+                            chat.sender._id === userId
                               ? "justify-end"
                               : "justify-start"
                           }`}
                         >
-                          {chat.userId !== userId && (
+                          {chat.sender._id !== userId && (
                             <div>
                               <img
                                 src="https://themesbrand.com/chatvia-tailwind/layouts/assets/images/avatar-2.jpg"
@@ -487,17 +450,19 @@ function Home() {
                           <div>
                             <div
                               className={`flex gap-2 mb-2 ${
-                                chat.userId === userId ? "flex-row-reverse" : ""
+                                chat.sender._id === userId
+                                  ? "flex-row-reverse"
+                                  : ""
                               }`}
                             >
                               <div
                                 className={`relative px-5 py-3 rounded-lg ${
-                                  chat.userId === userId
+                                  chat.sender._id === userId
                                     ? "bg-[#B08D57] text-white rounded-br-none"
                                     : "bg-gray-200 text-black rounded-bl-none"
                                 }`}
                               >
-                                <p className="mb-0">{chat.text}</p>
+                                <p className="mb-0">{chat.content}</p>
                                 <p className="mt-1 mb-0 text-xs text-right text-gray-100">
                                   <i className="align-middle ri-time-line"></i>
                                   <span className="align-middle text-black">
@@ -513,7 +478,7 @@ function Home() {
                               </div>
                             </div>
                             <div className="font-medium text-gray-700 text-14">
-                              {chat.userId === userId ? "Me" : "Other"}
+                              {chat.sender._id === userId ? "Me" : "Other"}
                             </div>
                           </div>
                         </div>
