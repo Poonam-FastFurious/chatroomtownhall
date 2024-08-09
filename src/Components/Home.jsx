@@ -6,13 +6,14 @@ import Cookies from "js-cookie";
 import bgimage from "../assets/images/chatbackend.jpeg";
 
 import Asidemenu from "./Asidemenu";
-import CreateGroup from "./CreateGroup";
 import GruopList from "./GruopList";
 import ProfileSettings from "./ProfileSettings";
 import { Link } from "react-router-dom";
 import { Baseurl } from "../Config";
 import { useSocket } from "../SocketContext";
 import axios from "axios";
+import UserList from "./UserList";
+import Settings from "./Settings";
 
 function Home() {
   const { socket } = useSocket();
@@ -259,9 +260,10 @@ function Home() {
           </div>
         )}
 
-        {activeTab === "contacts" && <CreateGroup />}
+        {activeTab === "contacts" && <UserList onUserClick={handleUserClick} />}
         {activeTab === "groups" && <GruopList />}
         {activeTab === "profile" && <ProfileSettings />}
+        {activeTab === "settings" && <Settings />}
         <div className="w-full overflow-hidden transition-all duration-150  bg-white user-chat">
           <div className="lg:flex">
             <div className="relative w-full overflow-hidden">
@@ -281,21 +283,26 @@ function Home() {
                           <div className="flex-grow overflow-hidden ml-4">
                             <h5 className="mb-0 truncate text-16 ltr:block rtl:hidden">
                               <Link to="#" className="text-gray-800">
-                                {selectedUser.isGroupChat
-                                  ? selectedUser.chatName
-                                  : selectedUser.users.find(
-                                      (u) => u._id !== userId
-                                    )
-                                  ? `${
-                                      selectedUser.users.find(
+                                {selectedUser
+                                  ? selectedUser.isGroupChat
+                                    ? selectedUser.chatName
+                                    : selectedUser.users &&
+                                      selectedUser.users.length > 0
+                                    ? selectedUser.users.find(
                                         (u) => u._id !== userId
-                                      ).firstName
-                                    } ${
-                                      selectedUser.users.find(
-                                        (u) => u._id !== userId
-                                      ).lastName
-                                    }`
-                                  : "Unknown User"}
+                                      )
+                                      ? `${
+                                          selectedUser.users.find(
+                                            (u) => u._id !== userId
+                                          ).firstName
+                                        } ${
+                                          selectedUser.users.find(
+                                            (u) => u._id !== userId
+                                          ).lastName
+                                        }`
+                                      : "Unknown User"
+                                    : "No name "
+                                  : "Select a user to start chatting"}
                               </Link>
                             </h5>
                             <h5 className="mb-0 truncate rtl:block ltr:hidden">
@@ -486,9 +493,7 @@ function Home() {
                     ))
                   ) : (
                     <li className="clear-both py-4">
-                      <div className="text-center text-gray-500">
-                        No messages yet
-                      </div>
+                      <div className="text-center text-gray-500"></div>
                     </li>
                   )}
                   <div ref={messagesEndRef} />

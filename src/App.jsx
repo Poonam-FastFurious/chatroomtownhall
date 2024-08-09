@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import "../src/assets/css/tailwind2.css";
-import Home from "./Components/Home";
+
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Components/Authentication/Login";
+import Home from "./Components/Home";
 
 function App() {
   return (

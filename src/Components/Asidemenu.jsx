@@ -82,7 +82,7 @@ const Asidemenu = ({ onMenuClick }) => {
             </li>
             <li className="flex-grow lg:flex-grow-0">
               <button
-                // onClick={() => onMenuClick("settings")}
+                onClick={() => onMenuClick("settings")}
                 className="tab-button relative flex items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
               >
                 <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
