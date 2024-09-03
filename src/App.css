@@ -1,0 +1,9 @@
+/* Hide scrollbar for WebKit browsers */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Optional: Add some padding for better usability */
+.hide-scrollbar {
+  padding-right: 15px; /* Adjust if needed */
+}
