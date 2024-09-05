@@ -6,6 +6,7 @@ function Settings() {
   const [openSection, setOpenSection] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [user, setUser] = useState({});
+  const [refresh, setRefresh] = useState(false);
   const Id = Cookies.get("userId");
 
   const [isLastSeenEnabled, setIsLastSeenEnabled] = useState(false);
@@ -19,7 +20,7 @@ function Settings() {
         setIsProfilePrivate(data.data.isProfilePrivate);
         setIsLastSeenEnabled(data.data.isLastSeenEnabled);
       });
-  }, [Id]);
+  }, [Id, refresh]);
 
   const updateUserPrivacy = () => {
     fetch(`${Baseurl}/api/v1/user/privacy`, {
@@ -39,6 +40,7 @@ function Settings() {
       .then((data) => {
         if (data.success) {
           setSuccessMessage("Privacy settings updated successfully!");
+          setRefresh(!refresh);
         } else {
           alert("Failed to update privacy settings.");
         }
@@ -79,6 +81,10 @@ function Settings() {
         .then((data) => {
           if (data.success) {
             setSuccessMessage("Profile photo updated successfully!");
+            setUser((prevUser) => ({
+              ...prevUser,
+              profilePhoto: data.data.profilePhoto, // Assuming this is the correct field from the response
+            }));
           } else {
             alert("Failed to update profile photo.");
           }

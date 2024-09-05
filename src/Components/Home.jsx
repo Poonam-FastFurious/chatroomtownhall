@@ -60,7 +60,7 @@ function Home() {
         {activeTab === "chatlist" && (
           <Chatsection onUserClick={handleUserClick} />
         )}
-        {activeTab === "contacts" && <UserList />}
+        {activeTab === "contacts" && <UserList onMenuClick={handleMenuClick} />}
         {activeTab === "groups" && <GruopList />}
         {activeTab === "settings" && <Settings />}
         {activeTab === "profile" && <Profilesection />}

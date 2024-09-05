@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Baseurl } from "../Confige";
 
-function UserList() {
+function UserList({ onMenuClick }) {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const accessToken = localStorage.getItem("accessToken");
@@ -41,6 +42,7 @@ function UserList() {
 
     // Access chat with the user
     accessChat(userId);
+    onMenuClick("chatlist");
   };
 
   const accessChat = (userId) => {
