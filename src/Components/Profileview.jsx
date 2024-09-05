@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { Baseurl } from "../Confige";
 import Cookies from "js-cookie";
-
+import Swal from "sweetalert2";
 function Profileview({ chatId, onClose }) {
   const [openSection, setOpenSection] = useState(null);
   const [users, setUsers] = useState([]);
   const [isGroupChat, setIsGroupChat] = useState(false);
   const [chatName, setChatName] = useState("");
+  const [adminId, setAdminId] = useState("");
   const userId = Cookies.get("userId");
 
   useEffect(() => {
@@ -31,6 +32,7 @@ function Profileview({ chatId, onClose }) {
         if (data) {
           setIsGroupChat(data.isGroupChat);
           setChatName(data.chatName);
+          setAdminId(data.groupAdmin._id);
           if (Array.isArray(data.users)) {
             // Filter out the logged-in user
             const filteredUsers = data.users.filter(
@@ -58,6 +60,15 @@ function Profileview({ chatId, onClose }) {
     : users.find((user) => user._id !== userId)?.profilePhoto ||
       "https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg";
   const removeUser = (removeUserId) => {
+    if (userId !== adminId) {
+      Swal.fire({
+        icon: "error",
+        title: "Permission Denied",
+        text: "You do not have permission to remove users.",
+      });
+      return;
+    }
+
     const token = Cookies.get("accessToken");
 
     fetch(`${Baseurl}/api/v1/chat/groupremoveuser`, {

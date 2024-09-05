@@ -305,84 +305,54 @@ function ChatuserHead({ chat, onProfileClick }) {
                               }`}
                             >
                               <p className="mb-0">{chat.content}</p>
-                              {chat.media &&
-                                chat.media.length > 0 &&
-                                chat.media.map((item) =>
-                                  item.fileType === "image" ? (
-                                    <>
-                                      <li
-                                        className="relative inline-block mr-2"
-                                        key={item._id}
+                              {chat.images &&
+                                chat.images.length > 0 &&
+                                chat.images.map((item, imgIndex) => (
+                                  <li
+                                    className="relative inline-block mr-2"
+                                    key={imgIndex}
+                                  >
+                                    <div>
+                                      <a
+                                        className="inline-block m-1 popup-img"
+                                        href={item}
+                                        download
+                                        title={`Image ${imgIndex}`}
                                       >
-                                        <div>
-                                          <a
-                                            className="inline-block m-1 popup-img"
-                                            href={item.filePath}
-                                            download={item.originalName}
-                                            title={item.originalName}
-                                          >
-                                            <img
-                                              src={item.filePath}
-                                              alt={item.originalName}
-                                              className="border rounded h-28"
-                                            />
-                                          </a>
-                                        </div>
-                                        <div className="absolute right-[10px] left-auto bottom-[10px]">
-                                          <ul>
-                                            <li className="inline-block p-2">
-                                              <a
-                                                download={item.originalName}
-                                                href={item.filePath}
-                                                className="font-medium"
-                                              >
-                                                <i className="text-lg ri-download-2-line"></i>
-                                              </a>
-                                            </li>
-                                            <li className="relative self-start inline-block p-2 dropdown">
-                                              <a
-                                                className="p-0 text-gray-400 border-0 btn dropdown-toggle "
-                                                href="#"
-                                                role="button"
-                                                data-bs-toggle="dropdown"
-                                                id="dropdownMenuButton17"
-                                              ></a>
-                                            </li>
-                                          </ul>
-                                        </div>
-                                      </li>
-                                    </>
-                                  ) : (
-                                    <div
-                                      key={item._id}
-                                      className="flex flex-wrap items-center gap-2 attached-file mt-2"
-                                    >
-                                      <div className="overflow-hidden flex-grow-1">
-                                        <div className="text-start">
-                                          <h5 className="mb-1 truncate text-14 text-white">
-                                            {item.originalName}
-                                          </h5>
-                                          <p className="mb-0  text-white truncate text-13">
-                                            Document File
-                                          </p>
-                                        </div>
-                                      </div>
-                                      <div className="rtl:mr-4 ltr:ml-4">
-                                        <div className="flex items-start gap-2">
-                                          <div>
-                                            <a
-                                              download={item.originalName}
-                                              href={item.filePath}
-                                              className="font-medium"
-                                            >
-                                              <i className="text-lg  text-white ri-download-2-line"></i>
-                                            </a>
-                                          </div>
-                                        </div>
-                                      </div>
+                                        <img
+                                          src={item}
+                                          alt={`Image ${imgIndex}`}
+                                          className="border rounded h-28"
+                                        />
+                                      </a>
                                     </div>
-                                  )
-                                )}
+                                    <div className="absolute right-[10px] left-auto bottom-[10px]">
+                                      <ul>
+                                        <li className="inline-block p-2">
+                                          <a
+                                            download
+                                            href={item}
+                                            className="font-medium"
+                                          >
+                                            <i className="text-lg ri-download-2-line"></i>
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </li>
+                                ))}
+                              {chat.documents &&
+                                chat.documents.map((doc, docIndex) => (
+                                  <a
+                                    key={docIndex}
+                                    href={doc}
+                                    download
+                                    className="block bg-gray-200 p-2 rounded my-2"
+                                  >
+                                    Document {docIndex + 1}
+                                  </a>
+                                ))}
+
                               <p className="mt-1 mb-0 text-xs text-right text-gray-100">
                                 <i className={`align-middle ri-check-line`}></i>
                                 <span className="align-middle text-black">

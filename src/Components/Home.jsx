@@ -60,22 +60,17 @@ function Home() {
         {activeTab === "chatlist" && (
           <Chatsection onUserClick={handleUserClick} />
         )}
+        {activeTab === "contacts" && <UserList />}
+        {activeTab === "groups" && <GruopList />}
+        {activeTab === "settings" && <Settings />}
+        {activeTab === "profile" && <Profilesection />}
+        {selectedChat && (
+          <ChatuserHead
+            chat={selectedChat}
+            onProfileClick={handleProfileClick}
+          />
+        )}
 
-        <div className="flex-grow">
-          {activeTab === "profile" && <Profilesection />}
-          {activeTab === "contacts" && <UserList />}
-          {activeTab === "groups" && <GruopList />}
-
-          {activeTab === "settings" && <Settings />}
-          <div className="w-full">
-            {selectedChat && (
-              <ChatuserHead
-                chat={selectedChat}
-                onProfileClick={handleProfileClick}
-              />
-            )}
-          </div>
-        </div>
         {isProfileViewVisible && (
           <Profileview
             chatId={selectedChatId}

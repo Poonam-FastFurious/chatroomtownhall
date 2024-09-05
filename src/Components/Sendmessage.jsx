@@ -33,10 +33,6 @@ function Sendmessage({ chatId }) {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
   const handleImageChange = (e) => {
     setImages([...e.target.files]);
   };
@@ -51,6 +47,8 @@ function Sendmessage({ chatId }) {
       const formData = new FormData();
       formData.append("content", message);
       formData.append("chatId", chatId);
+      console.log("Images:", images);
+      console.log("Documents:", documents);
 
       // Append image files to FormData
       for (const image of images) {
@@ -62,6 +60,9 @@ function Sendmessage({ chatId }) {
         formData.append("documents", document);
       }
 
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
       try {
         const response = await axios.post(
           `${Baseurl}/api/v1/message`,
@@ -74,16 +75,16 @@ function Sendmessage({ chatId }) {
           }
         );
 
-        console.log(response);
+        console.log("API Response:", response.data);
 
-        // Emit message to socket
+        // Emit message to socket after API response
         const tempMessage = {
           content: message,
           chatId,
           sender: { _id: userId },
           createdAt: new Date().toISOString(),
-          images: response.data.images, // Add the images URLs from response
-          documents: response.data.documents, // Add the documents URLs from response
+          images: images.map((image) => URL.createObjectURL(image)), // Add the images URLs from response
+          documents: documents.map((doc) => URL.createObjectURL(doc)), // Add the documents URLs from response
         };
         socket.emit("message", tempMessage);
 

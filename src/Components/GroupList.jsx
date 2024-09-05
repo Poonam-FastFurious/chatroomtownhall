@@ -227,7 +227,7 @@ function GruopList() {
   return (
     <>
       <div className="tab-content">
-        <div className="chat-leftsidebar  w-full bg-slate-50 overflow-y-hidden h-screen">
+        <div className="chat-leftsidr  eba bg-slate-50 overflow-y-hidden h-screen">
           <div className="p-6">
             <section className=" pt-2 lg:pb-2 lg:pt-[10px] ">
               <div className="container">
@@ -510,7 +510,7 @@ function GruopList() {
               className="chat-message-list chat-group-list"
               data-simplebar=""
             >
-              <ul className="grid gap-4 sm:grid-cols-1  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 p-4">
+              <ul className="px-5 py-[15px] group-data-[theme-color=violet]:hover:bg-slate-100 group-data-[theme-color=green]:hover:bg-green-50/50 group-data-[theme-color=red]:hover:bg-red-50/50 group-data-[theme-color=violet]:dark:hover:bg-zinc-600 group-data-[theme-color=green]:dark:hover:bg-zinc-600 group-data-[theme-color=red]:dark:hover:bg-zinc-600 transition-all ease-in-out rounded">
                 {group.map((chat, index) => (
                   <li
                     key={index}
@@ -574,14 +574,14 @@ function GruopList() {
                                   Rename
                                 </Link>
                               </li>
-                              <li>
+                              {/* <li>
                                 <Link
                                   className="block w-full px-6 py-2 text-sm font-normal text-gray-700 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-100/50 "
                                   to="#"
                                 >
                                   Req
                                 </Link>
-                              </li>
+                              </li> */}
                             </ul>
                           )}
                         </div>
