@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "./SocketContext";
@@ -14,7 +15,6 @@ function Sendmessage({ chatId }) {
   const [documents, setDocuments] = useState([]);
   const messagesEndRef = useRef(null);
   const accessToken = Cookies.get("accessToken");
-
   useEffect(() => {
     if (socket) {
       socket.on("message", (data) => {
@@ -40,6 +40,7 @@ function Sendmessage({ chatId }) {
   const handleDocumentChange = (e) => {
     setDocuments([...e.target.files]);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -47,8 +48,6 @@ function Sendmessage({ chatId }) {
       const formData = new FormData();
       formData.append("content", message);
       formData.append("chatId", chatId);
-      console.log("Images:", images);
-      console.log("Documents:", documents);
 
       // Append image files to FormData
       for (const image of images) {
@@ -60,9 +59,6 @@ function Sendmessage({ chatId }) {
         formData.append("documents", document);
       }
 
-      for (const [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
       try {
         const response = await axios.post(
           `${Baseurl}/api/v1/message`,
@@ -74,8 +70,6 @@ function Sendmessage({ chatId }) {
             },
           }
         );
-
-        console.log("API Response:", response.data);
 
         // Emit message to socket after API response
         const tempMessage = {

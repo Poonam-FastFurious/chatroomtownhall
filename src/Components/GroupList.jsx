@@ -227,7 +227,7 @@ function GruopList() {
   return (
     <>
       <div className="tab-content">
-        <div className="chat-leftsidr  eba bg-slate-50 overflow-y-hidden h-screen">
+        <div className="chat-leftsidr  lg:w-[380px] bg-slate-50 overflow-y-hidden h-screen">
           <div className="p-6">
             <section className=" pt-2 lg:pb-2 lg:pt-[10px] ">
               <div className="container">
@@ -239,20 +239,6 @@ function GruopList() {
                     >
                       <i className="ri-group-line me-1 ms-0"></i>
                       Create Groups
-                    </button>
-                    <button
-                      className="border-r border-stroke px-4 py-3 shadow-lg rounded-md last-of-type:border-r-0 hover:bg-gray-200 bg-[#CA9352]"
-                      onClick={toggleModal}
-                    >
-                      <i className="ri-group-line me-1 ms-0"></i>
-                      All Group
-                    </button>{" "}
-                    <button
-                      className="border-r border-stroke px-4 py-3 shadow-lg rounded-md last-of-type:border-r-0 hover:bg-gray-200 bg-[#CA9352]"
-                      onClick={toggleModal}
-                    >
-                      <i className="ri-group-line me-1 ms-0"></i>
-                      Private Group
                     </button>
                   </div>
                 </div>
@@ -510,17 +496,17 @@ function GruopList() {
               className="chat-message-list chat-group-list"
               data-simplebar=""
             >
-              <ul className="px-5 py-[15px] group-data-[theme-color=violet]:hover:bg-slate-100 group-data-[theme-color=green]:hover:bg-green-50/50 group-data-[theme-color=red]:hover:bg-red-50/50 group-data-[theme-color=violet]:dark:hover:bg-zinc-600 group-data-[theme-color=green]:dark:hover:bg-zinc-600 group-data-[theme-color=red]:dark:hover:bg-zinc-600 transition-all ease-in-out rounded">
+              <ul className="px-5 py-[15px] transition-all ease-in-out rounded gap-4">
                 {group.map((chat, index) => (
                   <li
                     key={index}
-                    className="px-5 py-[15px] hover:bg-[#CA9352] hover:/50    bg-gray-300   text-white transition-all ease-in-out rounded"
+                    className="mb-2 px-5 py-[15px] hover:bg-[#CA9352] hover:/50    bg-gray-300   text-white transition-all ease-in-out rounded"
                   >
                     <Link to="#">
                       <div className="flex items-center">
-                        <div className="ltr:mr-5 rtl:ml-5">
-                          <div className="flex items-center justify-center rounded-full w-9 h-9 bg-violet-500/20 0/20 group-data-[theme-color=red]:bg-red-500/20">
-                            <span className="font-medium text-violet-500  group-data-[theme-color=red]:text-red-500">
+                        <div className="">
+                          <div className="flex items-center justify-center rounded-full w-9 h-9 bg-violet-500/20 0/20 ">
+                            <span className="font-medium text-violet-500 ">
                               {chat.profileImage ? (
                                 <img
                                   src={chat.profileImage}
