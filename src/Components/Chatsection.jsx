@@ -54,7 +54,6 @@ function Chatsection({ onUserClick }) {
         <div>
           <div className="px-6 pt-6">
             <h4 className="mb-0 text-gray-700 ">Chats</h4>
-            <button onClick={showChat}>Open Chat</button>
             <div className="py-1 mt-5 mb-5 rounded bg-[#CA9352]">
               <span className=" pe-1 ps-3" id="basic-addon1">
                 <i className="text-lg text-white ri-search-line search-icon "></i>
@@ -83,7 +82,10 @@ function Chatsection({ onUserClick }) {
               return (
                 <li
                   key={index}
-                  onClick={() => handleUserClick(chat)}
+                  onClick={() => {
+                    handleUserClick(chat);
+                    showChat();
+                  }}
                   className="px-5 py-[15px] group-data-[theme-color=violet]:hover:bg-slate-100 group-data-[theme-color=green]:hover:bg-green-50/50 hover:bg-gray-100 transition-all ease-in-out border-b border-black/20 rounded-md"
                 >
                   <Link to="#">
