@@ -68,7 +68,7 @@ function UserList({ onMenuClick }) {
   return (
     <>
       <div className="tab-content active">
-        <div className="chat-leftsidebar lg:w-[380px] bg-slate-50 overflow-y-auto h-screen">
+        <div className="chat-leftsidebar lg:w-[380px] bg-slate-50 overflow-y-auto h-100%">
           <div className="p-6 pb-0">
             <h4 className="mb-6">Search User</h4>
 

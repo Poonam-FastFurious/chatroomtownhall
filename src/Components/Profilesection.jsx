@@ -15,7 +15,7 @@ function Profilesection() {
   };
   return (
     <>
-      <div className="chat-leftsidebar lg:w-[380px]  h-screen  overflow-y-hidden shadow  mb-[80px] lg:mb-0 bg-gray-200">
+      <div className="chat-leftsidebar lg:w-[380px]   overflow-y-auto h-100% shadow  mb-[80px] lg:mb-0 bg-gray-200">
         <div>
           <div className="tab-content active">
             <div>

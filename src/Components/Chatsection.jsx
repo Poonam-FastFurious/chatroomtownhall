@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Baseurl } from "../Confige";
 import Cookies from "js-cookie";
+import { useChat } from "./ChatContext/ChatContext";
 
 function Chatsection({ onUserClick }) {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const userId = Cookies.get("userId");
-
+  const { showChat } = useChat();
   const handleUserClick = (chat) => {
     onUserClick(chat); // Pass the user ID to the parent component
   };
@@ -48,12 +49,12 @@ function Chatsection({ onUserClick }) {
   });
 
   return (
-    <div className="chat-leftsidebar lg:w-[380px] h-screen overflow-hidden shadow mb-[80px] lg:mb-0 bg-gray-200">
+    <div className="chat-leftsidebar lg:w-[380px] h-100% overflow-hidden shadow mb-[80px] lg:mb-0 bg-gray-200">
       <div className="tab-content active flex flex-col h-full">
         <div>
           <div className="px-6 pt-6">
             <h4 className="mb-0 text-gray-700 ">Chats</h4>
-
+            <button onClick={showChat}>Open Chat</button>
             <div className="py-1 mt-5 mb-5 rounded bg-[#CA9352]">
               <span className=" pe-1 ps-3" id="basic-addon1">
                 <i className="text-lg text-white ri-search-line search-icon "></i>

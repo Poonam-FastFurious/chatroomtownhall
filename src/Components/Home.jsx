@@ -14,6 +14,7 @@ function Home() {
   const [isProfileViewVisible, setIsProfileViewVisible] = useState(false);
   const [selectedChatId, setSelectedChatId] = useState(null);
   const profileViewRef = useRef(null);
+  const [isHeaderOpen, setIsHeaderOpen] = useState(false);
 
   const handleMenuClick = (tab) => {
     setActiveTab(tab);
@@ -58,7 +59,11 @@ function Home() {
       <div className="flex h-screen">
         <Asidemenu onMenuClick={handleMenuClick} />
         {activeTab === "chatlist" && (
-          <Chatsection onUserClick={handleUserClick} />
+          <Chatsection
+            onUserClick={handleUserClick}
+            isHeaderOpen={isHeaderOpen}
+            setIsHeaderOpen={setIsHeaderOpen}
+          />
         )}
         {activeTab === "contacts" && <UserList onMenuClick={handleMenuClick} />}
         {activeTab === "groups" && <GruopList />}
@@ -68,6 +73,7 @@ function Home() {
           <ChatuserHead
             chat={selectedChat}
             onProfileClick={handleProfileClick}
+            isHeaderOpen={isHeaderOpen}
           />
         )}
 

@@ -7,8 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import Sendmessage from "./Sendmessage";
 import { useMessages } from "./Context/MessageContext";
 import bgimage from "../../assets/images/chatbackend.jpeg";
+import { useChat } from "./ChatContext/ChatContext";
 
 function ChatuserHead({ chat, onProfileClick }) {
+  const { isChatVisible, hideChat } = useChat();
   const [chatData, setChatData] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
 
@@ -78,14 +80,18 @@ function ChatuserHead({ chat, onProfileClick }) {
 
   return (
     <>
-      <div className="w-full overflow-hidden transition-all duration-150 bg-white user-chat ">
+      <div
+        className={`w-full overflow-hidden transition-all duration-150 bg-white user-chat ${
+          isChatVisible ? "user-chat-show" : ""
+        } `}
+      >
         <div className="lg:flex">
           <div className="relative w-full overflow-hidden">
             <div className="p-4 border-b border-gray-100 lg:p-6 ">
               <div className="grid items-center grid-cols-12">
                 <div className="col-span-8 sm:col-span-4">
                   <div className="flex items-center gap-4">
-                    <div className="block ">
+                    <div className="block " onClick={hideChat}>
                       <Link
                         to="#"
                         className="p-2 text-gray-500 user-chat-remove text-16"
