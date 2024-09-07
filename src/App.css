@@ -7,3 +7,30 @@
 .hide-scrollbar {
   padding-right: 15px; /* Adjust if needed */
 }
+
+/* Add this CSS to make Profileview visible on top in mobile */
+@media (max-width: 768px) {
+  .profile-view-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.8
+    ); /* Optional: Semi-transparent background */
+    z-index: 1000; /* High z-index to appear on top */
+  }
+
+  .profile-content {
+    background-color: white;
+    width: 90%; /* Adjust as necessary */
+    padding: 20px;
+    border-radius: 8px;
+    overflow-y: auto;
+    max-height: 90%;
+  }
+}

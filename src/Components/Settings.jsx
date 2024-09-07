@@ -296,25 +296,6 @@ function Settings() {
                         </div>
                       </div>
                     </div>
-                    <div className="py-4 border-t border-gray-100/80 ">
-                      <div className="flex items-center">
-                        <div className="flex-grow overflow-hidden">
-                          <h5 className="mb-0 text-gray-700 truncate text-13 ">
-                            Status
-                          </h5>
-                        </div>
-                        <div className="relative flex-shrink-0 dropdown">
-                          <button
-                            className="border-transparent rounded btn dropdown-toggle bg-slate-100 px-1.5 py-1   "
-                            type="button"
-                            data-bs-toggle="dropdown"
-                            id="dropdownMenuButtonT"
-                          >
-                            Everyone <i className="mdi mdi-chevron-down"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

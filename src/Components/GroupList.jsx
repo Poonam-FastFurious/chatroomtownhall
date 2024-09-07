@@ -226,8 +226,8 @@ function GruopList() {
 
   return (
     <>
-      <div className="tab-content">
-        <div className="chat-leftsidr  lg:w-[380px] bg-slate-50 overflow-y-hidden h-screen">
+      <div>
+        <div className="chat-leftsidebar lg:w-[380px] overflow-hidden shadow mb-[80px] lg:mb-0 bg-gray-200  h-[100vh] overflow-y-auto">
           <div className="p-6">
             <section className=" pt-2 lg:pb-2 lg:pt-[10px] ">
               <div className="container">

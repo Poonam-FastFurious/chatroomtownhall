@@ -1,7 +1,7 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
 
 import Cookies from "js-cookie";
-import { Link } from "react-router-dom";
 import { Baseurl } from "../Confige";
 import { useEffect, useRef, useState } from "react";
 import Sendmessage from "./Sendmessage";
@@ -75,8 +75,6 @@ function ChatuserHead({ chat, onProfileClick }) {
   const chatUserId = chat?.users?.find(
     (user) => user._id !== Cookies.get("userId")
   )?._id;
-  console.log("imagetesting ", messages);
-  console.log("imagetestingdhghhd ", chatData);
 
   return (
     <>
@@ -87,42 +85,84 @@ function ChatuserHead({ chat, onProfileClick }) {
       >
         <div className="lg:flex">
           <div className="relative w-full overflow-hidden">
-            <div className="p-4 border-b border-gray-100 lg:p-6 ">
+            <div className="p-4 border-b border-gray-100 lg:p-6 dark:border-zinc-600">
               <div className="grid items-center grid-cols-12">
                 <div className="col-span-8 sm:col-span-4">
-                  <div className="flex items-center gap-4">
-                    <div className="block " onClick={hideChat}>
-                      <Link
-                        to="#"
+                  <div className="flex items-center">
+                    <div
+                      className="block ltr:mr-2 rtl:ml-2 lg:hidden"
+                      onClick={hideChat}
+                    >
+                      <a
+                        href=""
                         className="p-2 text-gray-500 user-chat-remove text-16"
                       >
                         <i className="ri-arrow-left-s-line"></i>
-                      </Link>
+                      </a>
                     </div>
                     <div className="rtl:ml-3 ltr:mr-3">
                       <img
                         src={getUserImage(chatUserId)}
-                        className="rounded-full h-9 w-9 cursor-pointer"
+                        className="rounded-full h-9 w-9"
                         alt=""
-                        onClick={() => onProfileClick(chat._id)}
                       />
-                      {getUserActiveStatus(chatUserId) && (
-                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
-                      )}
                     </div>
                     <div className="flex-grow overflow-hidden">
-                      <h5 className="mb-0 truncate text-16 ">
-                        <span to="#" className="text-gray-800 ">
+                      <h5 className="mb-0 truncate text-16 ltr:block rtl:hidden">
+                        <a href="#" className="text-gray-800 dark:text-gray-50">
                           {chatName || "Chat"}
-                        </span>
+                        </a>
+                        {getUserActiveStatus(chatUserId) && (
+                          <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                        )}
                       </h5>
                     </div>
                   </div>
                 </div>
+                <div className="col-span-4 sm:col-span-8">
+                  <ul className="flex items-center justify-end lg:gap-4">
+                    <li className="px-3">
+                      <a
+                        onClick={() => onProfileClick(chat._id)}
+                        href="#"
+                        className=" text-gray-500 dark:text-gray-300 lg:block profileTab"
+                      >
+                        <i className="text-xl ri-group-line"></i>
+                      </a>
+                    </li>
+
+                    <li className="px-3 " style={{ visibility: "hidden" }}>
+                      <div className="relative dropdown">
+                        <button
+                          className="p-0 text-xl text-gray-500 border-0 btn dropdown-toggle dark:text-gray-300"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          id="dropdownMenuButton11"
+                        >
+                          <i className="ri-more-fill"></i>
+                        </button>
+                        <ul
+                          className="absolute z-50 hidden w-40 py-2 mx-4 mt-2 text-left list-none bg-white border rounded shadow-lg ltr:-right-4 border-gray-50 dropdown-menu top-8 dark:bg-zinc-600 bg-clip-padding dark:border-gray-600/50 rtl:-left-5"
+                          aria-labelledby="dropdownMenuButton11"
+                        >
+                          <li className="block lg:hidden">
+                            <a
+                              className="block w-full px-4 py-2 text-sm font-normal text-gray-700 bg-transparent profileTab dropdown-item whitespace-nowrap hover:bg-gray-100/30 dark:text-gray-100 dark:hover:bg-zinc-700 ltr:text-left rtl:text-right"
+                              href="#"
+                            >
+                              View profile
+                              <i className="text-gray-500 rtl:float-left ltr:float-right dark:text-gray-300 ri-user-2-line text-16"></i>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
             <div
-              className="h-[75vh] p-4 lg:p-6 overflow-y-auto "
+              className="h-[75vh]  p-4 lg:p-6 overflow-y-auto "
               data-simplebar=""
               style={{ backgroundImage: `url(${bgimage})` }}
             >
