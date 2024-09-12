@@ -76,71 +76,77 @@ const Asidemenu = ({ onMenuClick }) => {
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("profile")}
-                className="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className="tab-button flex flex-col relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
               >
-                <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
-                  <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                  <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">
+                <div>
+                  <i className="text-2xl ri-user-2-line"></i>
+                </div>
+                <div>
+                  <span className="relative z-10 p-2 text-xs leading-none  whitespace-no-wrap  rounded ">
                     Profile
                   </span>
                 </div>
-                <i className="text-2xl ri-user-2-line"></i>
               </button>
             </li>
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("chatlist")}
-                className="tab-button active relative flex items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className="tab-button active relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
               >
-                <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
-                  <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                  <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">
+                <div>
+                  <i className="text-2xl ri-message-3-line"></i>
+                </div>
+                <div>
+                  <span className="relative z-10 p-2 text-xs leading-none  whitespace-no-wrap  rounded ">
                     Chats
                   </span>
                 </div>
-                <i className="text-2xl ri-message-3-line"></i>
               </button>
             </li>
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("groups")}
-                className="tab-button relative flex items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className="tab-button relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
               >
-                <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
-                  <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                  <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">
+                <div>
+                  <i className="text-2xl ri-group-line"></i>
+                </div>
+                <div>
+                  <span className="relative z-10 p-2 text-xs leading-none  whitespace-no-wrap  rounded ">
                     Groups
                   </span>
                 </div>
-                <i className="text-2xl ri-group-line"></i>
               </button>
             </li>
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("contacts")}
-                className="tab-button relative flex items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className="tab-button relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
               >
-                <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
-                  <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                  <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">
+                <div>
+                  {" "}
+                  <i className="text-2xl ri-contacts-line"></i>
+                </div>
+                <div>
+                  <span className="relative z-10 p-2 text-xs leading-none  whitespace-no-wrap  rounded ">
                     Contacts
                   </span>
                 </div>
-                <i className="text-2xl ri-contacts-line"></i>
               </button>
             </li>
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("settings")}
-                className="tab-button relative flex items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className="tab-button relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
               >
-                <div className="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
-                  <div className="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                  <span className="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">
+                <div>
+                  <i className="text-2xl ri-settings-2-line"></i>
+                </div>
+                <div>
+                  <span className="relative z-10 p-2 text-xs leading-none  whitespace-no-wrap  rounded ">
                     Settings
                   </span>
                 </div>
-                <i className="text-2xl ri-settings-2-line"></i>
               </button>
             </li>
           </ul>
