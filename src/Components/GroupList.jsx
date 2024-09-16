@@ -5,6 +5,7 @@ import { Baseurl } from "../Confige";
 
 function GruopList() {
   const [group, setGroup] = useState([]);
+  const [allgroup, setAllgroup] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isaddmemberopen, setIsaddmemberopen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -14,7 +15,8 @@ function GruopList() {
   const [userList, setUserList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
-  // const [groupName, setGroupName] = useState("");
+  const [showAllGroups, setShowAllGroups] = useState(false); // New state for toggling between group and all group
+
   const toggleDropdown = (index) => {
     if (openDropdownIndex === index) {
       setOpenDropdownIndex(null); // Close the dropdown if it's already open
@@ -30,6 +32,32 @@ function GruopList() {
   };
   const toggleEditModal = () => {
     setIsEditOpen(!isEditOpen);
+  };
+  const fetchallgroup = async () => {
+    try {
+      const token = Cookies.get("accessToken");
+
+      // Fetch chats from the API
+      const response = await fetch(Baseurl + "/api/v1/chat/getallgroups", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      // Filter groups only
+
+      setAllgroup(data);
+    } catch (error) {
+      console.error("Error fetching chats:", error);
+    }
   };
   const fetchChats = async () => {
     try {
@@ -60,6 +88,7 @@ function GruopList() {
   };
   useEffect(() => {
     fetchChats();
+    fetchallgroup();
   }, []);
 
   useEffect(() => {
@@ -112,7 +141,8 @@ function GruopList() {
     setName(group.chatName);
     toggleEditModal();
   };
-  const handelmemberadd = () => {
+  const handelmemberadd = (group) => {
+    setSelectedGroupId(group._id);
     addmemberopen();
   };
   const handleEditSave = async () => {
@@ -202,8 +232,8 @@ function GruopList() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          chatId: selectedGroupId, // ID of the group to which you are adding members
-          users: JSON.stringify(selectedUsers), // Convert array to JSON string
+          chatId: selectedGroupId, // ID of the group
+          userId: selectedUsers, // Send the array of user IDs
         }),
       });
 
@@ -220,6 +250,12 @@ function GruopList() {
     }
   };
 
+  const filteredGroups = group.filter((g) =>
+    g.chatName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const filteredAllGroups = allgroup.filter((g) =>
+    g.chatName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   const filteredUsers = userList.filter((user) =>
     user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -231,7 +267,7 @@ function GruopList() {
           <div className="p-6">
             <section className=" pt-2 lg:pb-2 lg:pt-[10px] ">
               <div className="container">
-                <div className="flx  ">
+                <div className=" flex  ">
                   <div className="inline-flex items-center overflow-hidden  gap-4   ">
                     <button
                       className="border-r border-stroke px-4 py-3 shadow-lg rounded-md last-of-type:border-r-0 hover:bg-gray-200 bg-[#CA9352]"
@@ -239,6 +275,15 @@ function GruopList() {
                     >
                       <i className="ri-group-line me-1 ms-0"></i>
                       Create Groups
+                    </button>
+                  </div>
+                  <div className="inline-flex items-center overflow-hidden  gap-4   ">
+                    <button
+                      className="border-r border-stroke px-4 py-3 shadow-lg rounded-md last-of-type:border-r-0 hover:bg-gray-200 bg-[#CA9352]"
+                      onClick={() => setShowAllGroups(true)}
+                    >
+                      <i className="ri-group-line me-1 ms-0"></i>
+                      all Groups
                     </button>
                   </div>
                 </div>
@@ -489,6 +534,8 @@ function GruopList() {
                 placeholder="Search messages or users"
                 aria-label="Search messages or users"
                 aria-describedby="basic-addon2"
+                value={searchTerm}
+                onChange={handleSearchChange}
               />
             </div>
 
@@ -497,7 +544,7 @@ function GruopList() {
               data-simplebar=""
             >
               <ul className="px-5 py-[15px] transition-all ease-in-out rounded gap-4">
-                {group.map((chat, index) => (
+                {filteredGroups.map((chat, index) => (
                   <li
                     key={index}
                     className="mb-2 px-5 py-[15px] hover:bg-[#CA9352] hover:/50    bg-gray-300   text-white transition-all ease-in-out rounded"
@@ -544,7 +591,7 @@ function GruopList() {
                             >
                               <li>
                                 <Link
-                                  onClick={() => handelmemberadd()}
+                                  onClick={() => handelmemberadd(chat)}
                                   className="block w-full px-6 py-2 text-sm font-normal text-gray-700 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-100/50 "
                                   to="#"
                                 >
@@ -575,6 +622,50 @@ function GruopList() {
                     </Link>
                   </li>
                 ))}
+              </ul>
+            </div>
+            <div
+              className="chat-message-list chat-group-list"
+              data-simplebar=""
+            >
+              <ul className="px-5 py-[15px] transition-all ease-in-out rounded gap-4">
+                {showAllGroups &&
+                  filteredAllGroups.map((chat, index) => (
+                    <li
+                      key={index}
+                      className="mb-2 px-5 py-[15px] hover:bg-[#CA9352] hover:/50    bg-gray-300   text-white transition-all ease-in-out rounded"
+                    >
+                      <Link to="#">
+                        <div className="flex items-center">
+                          <div className="">
+                            <div className="flex items-center justify-center rounded-full w-9 h-9 bg-violet-500/20 0/20 ">
+                              <span className="font-medium text-violet-500 ">
+                                {chat.profileImage ? (
+                                  <img
+                                    src={chat.profileImage}
+                                    alt="Profile"
+                                    className="w-full h-full object-cover rounded-full"
+                                  />
+                                ) : (
+                                  <span className="font-medium text-violet-500 group-data-[theme-color=red]:text-red-500">
+                                    {chat.chatName[0].toUpperCase()}
+                                  </span>
+                                )}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex-grow overflow-hidden">
+                            <h5 className="mb-0 text-gray-700 truncate text-14  ml-4">
+                              {chat.chatName}
+                              {/* <span className="rtl:float-left ltr:float-right px-1.5 py-0.5 text-red-500 rounded-full bg-red-500/20 text-11">
+                              +23
+                            </span> */}
+                            </h5>
+                          </div>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>

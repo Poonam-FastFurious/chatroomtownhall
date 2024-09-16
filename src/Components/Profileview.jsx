@@ -11,6 +11,7 @@ function Profileview({ chatId, onClose }) {
   const [isGroupChat, setIsGroupChat] = useState(false);
   const [chatName, setChatName] = useState("");
   const [adminId, setAdminId] = useState("");
+  const [admin, setAdmin] = useState(null);
   const userId = Cookies.get("userId");
   const [otherUser, setOtherUser] = useState(null);
   useEffect(() => {
@@ -34,6 +35,7 @@ function Profileview({ chatId, onClose }) {
           setIsGroupChat(data.isGroupChat);
           setChatName(data.chatName);
           setAdminId(data.groupAdmin?._id);
+          setAdmin(data.groupAdmin);
           if (Array.isArray(data.users)) {
             setUsers(data.users);
             if (!data.isGroupChat) {
@@ -256,6 +258,31 @@ function Profileview({ chatId, onClose }) {
                     </div>
                   </div>
                 </div>
+                {admin && (
+                  <div className="p-5 mt-4 border-t-2 border-gray-100">
+                    <h5 className="font-semibold text-sm text-gray-700">
+                      Admin Details
+                    </h5>
+                    <div className="flex items-center mt-2">
+                      <img
+                        src={
+                          admin.profilePhoto ||
+                          "https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg"
+                        }
+                        alt="Admin"
+                        className="w-10 h-10 rounded-full"
+                      />
+                      <div className="ml-4">
+                        <h6 className="text-sm font-semibold">
+                          {admin.firstName} {admin.lastName}
+                        </h6>
+                        <p className="text-gray-500 text-xs">
+                          {admin.emailAddress || "No email provided"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Baseurl } from "../Confige";
 
-const Asidemenu = ({ onMenuClick }) => {
+const Asidemenu = ({ onMenuClick, activeTab }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [user, setUser] = useState({});
   const Id = localStorage.getItem("userId");
@@ -76,7 +76,9 @@ const Asidemenu = ({ onMenuClick }) => {
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("profile")}
-                className="tab-button flex flex-col relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className={`tab-button flex flex-col relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg ${
+                  activeTab === "profile" ? "bg-[#CA9352] text-white" : ""
+                }`}
               >
                 <div>
                   <i className="text-2xl ri-user-2-line"></i>
@@ -91,7 +93,9 @@ const Asidemenu = ({ onMenuClick }) => {
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("chatlist")}
-                className="tab-button active relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className={`tab-button active relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg ${
+                  activeTab === "chatlist" ? "bg-[#CA9352] text-white" : ""
+                } `}
               >
                 <div>
                   <i className="text-2xl ri-message-3-line"></i>
@@ -106,7 +110,9 @@ const Asidemenu = ({ onMenuClick }) => {
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("groups")}
-                className="tab-button relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className={`tab-button relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg ${
+                  activeTab === "groups" ? "bg-[#CA9352] text-white" : ""
+                }`}
               >
                 <div>
                   <i className="text-2xl ri-group-line"></i>
@@ -121,10 +127,11 @@ const Asidemenu = ({ onMenuClick }) => {
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("contacts")}
-                className="tab-button relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className={`tab-button relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg ${
+                  activeTab === "contacts" ? "bg-[#CA9352] text-white" : ""
+                }`}
               >
                 <div>
-                  {" "}
                   <i className="text-2xl ri-contacts-line"></i>
                 </div>
                 <div>
@@ -137,7 +144,9 @@ const Asidemenu = ({ onMenuClick }) => {
             <li className="flex-grow lg:flex-grow-0">
               <button
                 onClick={() => onMenuClick("settings")}
-                className="tab-button relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg"
+                className={`tab-button relative flex flex-col items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg ${
+                  activeTab === "settings" ? "bg-[#CA9352] text-white" : ""
+                }`}
               >
                 <div>
                   <i className="text-2xl ri-settings-2-line"></i>

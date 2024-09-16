@@ -15,7 +15,7 @@ function NewLogin() {
     const refreshToken = localStorage.getItem("refreshToken");
 
     if (accessToken && refreshToken) {
-      navigate("/Chat"); // Redirect to chat routes if logged in
+      navigate("/"); // Redirect to chat routes if logged in
     }
   }, [navigate]);
   const handleChange = (e) => {
