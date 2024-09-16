@@ -74,6 +74,7 @@ function Sendmessage({ chatId }) {
         // Emit message to socket after API response
         const tempMessage = {
           content: message,
+          response: response.data._id,
           chatId,
           sender: { _id: userId },
           createdAt: new Date().toISOString(),

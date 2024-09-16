@@ -13,13 +13,14 @@ function ChatuserHead({ chat, onProfileClick }) {
   const { isChatVisible, hideChat } = useChat();
   const [chatData, setChatData] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
-
+  const [currentChatId, setCurrentChatId] = useState(null);
   const userId = Cookies.get("userId");
   const { messages } = useMessages();
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     if (chat && chat._id) {
+      setCurrentChatId(chat._id);
       const token = Cookies.get("accessToken");
 
       fetch(`${Baseurl}/api/v1/message/${chat._id}`, {
@@ -317,129 +318,133 @@ function ChatuserHead({ chat, onProfileClick }) {
               </ul>
               <ul className="mb-0">
                 {messages.length > 0 ? (
-                  messages.map((chat, index) => (
-                    <li className="clear-both py-4" key={index}>
-                      <div
-                        className={`flex items-end gap-3 ${
-                          chat.sender._id === userId
-                            ? "justify-end"
-                            : "justify-start"
-                        }`}
-                      >
-                        {chat.sender._id !== userId && (
+                  messages
+                    .filter((message) => message.chatId === currentChatId) // Filter messages based on chatId
+                    .map((chat, index) => (
+                      <li className="clear-both py-4" key={index}>
+                        <div
+                          className={`flex items-end gap-3 ${
+                            chat.sender._id === userId
+                              ? "justify-end"
+                              : "justify-start"
+                          }`}
+                        >
+                          {chat.sender._id !== userId && (
+                            <div>
+                              <img
+                                src="https://themesbrand.com/chatvia-tailwind/layouts/assets/images/avatar-2.jpg"
+                                alt=""
+                                className="rounded-full h-9 w-9"
+                              />
+                            </div>
+                          )}
                           <div>
-                            <img
-                              src="https://themesbrand.com/chatvia-tailwind/layouts/assets/images/avatar-2.jpg"
-                              alt=""
-                              className="rounded-full h-9 w-9"
-                            />
-                          </div>
-                        )}
-                        <div>
-                          <div
-                            className={`flex gap-2 mb-2 ${
-                              chat.sender._id === userId
-                                ? "flex-row-reverse"
-                                : ""
-                            }`}
-                          >
                             <div
-                              className={`relative px-5 py-3 rounded-lg ${
+                              className={`flex gap-2 mb-2 ${
                                 chat.sender._id === userId
-                                  ? "bg-[#B08D57] text-white rounded-br-none"
-                                  : "bg-gray-200 text-black rounded-bl-none"
+                                  ? "flex-row-reverse"
+                                  : ""
                               }`}
                             >
-                              <p className="mb-0">{chat.content}</p>
-                              {chat.images &&
-                                chat.images.length > 0 &&
-                                chat.images.map((item, imgIndex) => (
-                                  <li
-                                    className="relative inline-block mr-2"
-                                    key={imgIndex}
-                                  >
-                                    <div>
-                                      <a
-                                        className="inline-block m-1 popup-img"
-                                        href={item}
-                                        download
-                                        title={`Image ${imgIndex}`}
-                                      >
-                                        <img
-                                          src={item}
-                                          alt={`Image ${imgIndex}`}
-                                          className="border rounded h-28"
-                                        />
-                                      </a>
-                                    </div>
-                                    <div className="absolute right-[10px] left-auto bottom-[10px]">
-                                      <ul>
-                                        <li className="inline-block p-2">
-                                          <a
-                                            download
-                                            href={item}
-                                            className="font-medium"
-                                          >
-                                            <i className="text-lg ri-download-2-line"></i>
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </li>
-                                ))}
-                              {chat.documents &&
-                                chat.documents.map((doc, docIndex) => (
-                                  <a
-                                    key={docIndex}
-                                    href={doc}
-                                    download
-                                    className="block bg-gray-200 p-2 rounded my-2"
-                                  >
-                                    Document {docIndex + 1}
-                                  </a>
-                                ))}
+                              <div
+                                className={`relative px-5 py-3 rounded-lg ${
+                                  chat.sender._id === userId
+                                    ? "bg-[#B08D57] text-white rounded-br-none"
+                                    : "bg-gray-200 text-black rounded-bl-none"
+                                }`}
+                              >
+                                <p className="mb-0">{chat.content}</p>
+                                {chat.images &&
+                                  chat.images.length > 0 &&
+                                  chat.images.map((item, imgIndex) => (
+                                    <li
+                                      className="relative inline-block mr-2"
+                                      key={imgIndex}
+                                    >
+                                      <div>
+                                        <a
+                                          className="inline-block m-1 popup-img"
+                                          href={item}
+                                          download
+                                          title={`Image ${imgIndex}`}
+                                        >
+                                          <img
+                                            src={item}
+                                            alt={`Image ${imgIndex}`}
+                                            className="border rounded h-28"
+                                          />
+                                        </a>
+                                      </div>
+                                      <div className="absolute right-[10px] left-auto bottom-[10px]">
+                                        <ul>
+                                          <li className="inline-block p-2">
+                                            <a
+                                              download
+                                              href={item}
+                                              className="font-medium"
+                                            >
+                                              <i className="text-lg ri-download-2-line"></i>
+                                            </a>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </li>
+                                  ))}
+                                {chat.documents &&
+                                  chat.documents.map((doc, docIndex) => (
+                                    <a
+                                      key={docIndex}
+                                      href={doc}
+                                      download
+                                      className="block bg-gray-200 p-2 rounded my-2"
+                                    >
+                                      Document {docIndex + 1}
+                                    </a>
+                                  ))}
 
-                              <p className="mt-1 mb-0 text-xs text-right text-gray-100">
-                                <i className={`align-middle ri-check-line`}></i>
-                                <span className="align-middle text-black">
-                                  {new Date(chat.createdAt).toLocaleTimeString(
-                                    [],
-                                    {
+                                <p className="mt-1 mb-0 text-xs text-right text-gray-100">
+                                  <i
+                                    className={`align-middle ri-check-line`}
+                                  ></i>
+                                  <span className="align-middle text-black">
+                                    {new Date(
+                                      chat.createdAt
+                                    ).toLocaleTimeString([], {
                                       hour: "2-digit",
                                       minute: "2-digit",
                                       hour12: true,
-                                    }
-                                  )}
-                                </span>
-                              </p>
+                                    })}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                            <div
+                              className={`font-medium text-gray-700 text-14 ${
+                                chat.sender._id === userId ? "text-right" : ""
+                              }`}
+                            >
+                              {chat.sender._id === userId ? "Me" : "Other"}
                             </div>
                           </div>
-                          <div
-                            className={`font-medium text-gray-700 text-14 ${
-                              chat.sender._id === userId ? "text-right" : ""
-                            }`}
-                          >
-                            {chat.sender._id === userId ? "Me" : "Other"}
-                          </div>
-                        </div>
 
-                        {chat.sender._id === userId && (
-                          <div>
-                            <img
-                              src={getUserImage(userId)}
-                              alt=""
-                              className="rounded-full h-9 w-9"
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </li>
-                  ))
+                          {chat.sender._id === userId && (
+                            <div>
+                              <img
+                                src={getUserImage(userId)}
+                                alt="dddd"
+                                className="rounded-full h-9 w-9"
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </li>
+                    ))
                 ) : (
                   <li className="clear-both py-4">
                     <div className="text-center text-gray-500"></div>
                   </li>
                 )}
+
                 <div ref={messagesEndRef} />
               </ul>
             </div>
