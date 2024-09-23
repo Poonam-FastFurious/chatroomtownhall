@@ -76,7 +76,7 @@ function ChatuserHead({ chat, onProfileClick }) {
   const chatUserId = chat?.users?.find(
     (user) => user._id !== Cookies.get("userId")
   )?._id;
-
+  const pinnedMessages = chatData.filter((message) => message.isPinned);
   return (
     <>
       <div
@@ -86,12 +86,12 @@ function ChatuserHead({ chat, onProfileClick }) {
       >
         <div className="lg:flex">
           <div className="relative w-full overflow-hidden">
-            <div className="p-4 border-b border-gray-100 lg:p-6 dark:border-zinc-600">
+            <div className="p-4 border-b border-gray-100  dark:border-zinc-600">
               <div className="grid items-center grid-cols-12">
                 <div className="col-span-8 sm:col-span-4">
                   <div className="flex items-center">
                     <div
-                      className="block ltr:mr-2 rtl:ml-2 lg:hidden"
+                      className="block mr-2 rtl:ml-2 lg:hidden"
                       onClick={hideChat}
                     >
                       <a
@@ -101,7 +101,7 @@ function ChatuserHead({ chat, onProfileClick }) {
                         <i className="ri-arrow-left-s-line"></i>
                       </a>
                     </div>
-                    <div className="rtl:ml-3 ltr:mr-3">
+                    <div className="">
                       <img
                         src={getUserImage(chatUserId)}
                         className="rounded-full h-9 w-9"
@@ -131,37 +131,55 @@ function ChatuserHead({ chat, onProfileClick }) {
                         <i className="text-xl ri-group-line"></i>
                       </a>
                     </li>
-
-                    <li className="px-3 " style={{ visibility: "hidden" }}>
-                      <div className="relative dropdown">
-                        <button
-                          className="p-0 text-xl text-gray-500 border-0 btn dropdown-toggle dark:text-gray-300"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          id="dropdownMenuButton11"
-                        >
-                          <i className="ri-more-fill"></i>
-                        </button>
-                        <ul
-                          className="absolute z-50 hidden w-40 py-2 mx-4 mt-2 text-left list-none bg-white border rounded shadow-lg ltr:-right-4 border-gray-50 dropdown-menu top-8 dark:bg-zinc-600 bg-clip-padding dark:border-gray-600/50 rtl:-left-5"
-                          aria-labelledby="dropdownMenuButton11"
-                        >
-                          <li className="block lg:hidden">
-                            <a
-                              className="block w-full px-4 py-2 text-sm font-normal text-gray-700 bg-transparent profileTab dropdown-item whitespace-nowrap hover:bg-gray-100/30 dark:text-gray-100 dark:hover:bg-zinc-700 ltr:text-left rtl:text-right"
-                              href="#"
-                            >
-                              View profile
-                              <i className="text-gray-500 rtl:float-left ltr:float-right dark:text-gray-300 ri-user-2-line text-16"></i>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </li>
                   </ul>
                 </div>
               </div>
             </div>
+            {/* pinned section  */}
+            {pinnedMessages.length > 0 && (
+              <div className="p-4 border-b border-gray-100  dark:border-zinc-600">
+                <div className="grid items-center grid-cols-12">
+                  <div className="col-span-8 sm:col-span-4">
+                    <div className="flex items-center">
+                      <div className="">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="1em"
+                          height="1em"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M12 17v5M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4a1 1 0 0 1 1 1z"
+                          />
+                        </svg>
+                      </div>
+                      <div className="flex-grow overflow-hidden">
+                        <h5 className="mb-0 truncate text-16 ltr:block rtl:hidden">
+                          {pinnedMessages.length > 0 ? (
+                            pinnedMessages.map((mesage, index) => (
+                              <a
+                                key={index}
+                                href="#"
+                                className="text-gray-800 dark:text-gray-50"
+                              >
+                                {mesage.content}
+                              </a>
+                            ))
+                          ) : (
+                            <>no pinned</>
+                          )}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
             <div
               className="h-[75vh]  p-4 lg:p-6 overflow-y-auto "
               data-simplebar=""
@@ -191,88 +209,34 @@ function ChatuserHead({ chat, onProfileClick }) {
                             className={`relative px-5 py-3 rounded-lg ${
                               message.sender._id === userId
                                 ? "bg-[#CA9352] text-gray-700 float-right"
-                                : " bg-gray-500 text-white"
+                                : "bg-gray-500 text-white"
                             }`}
                           >
                             <p className="mb-0">{message.content}</p>
                             {message.media &&
                               message.media.length > 0 &&
-                              message.media.map((item) =>
-                                item.fileType === "image" ? (
-                                  <>
-                                    <li
-                                      className="relative inline-block mr-2"
-                                      key={item._id}
+                              message.media.map((item) => (
+                                // Render media items as in your original code
+                                <li
+                                  className="relative inline-block mr-2"
+                                  key={item._id}
+                                >
+                                  <div>
+                                    <a
+                                      className="inline-block m-1 popup-img"
+                                      href={item.filePath}
+                                      download={item.originalName}
+                                      title={item.originalName}
                                     >
-                                      <div>
-                                        <a
-                                          className="inline-block m-1 popup-img"
-                                          href={item.filePath}
-                                          download={item.originalName}
-                                          title={item.originalName}
-                                        >
-                                          <img
-                                            src={item.filePath}
-                                            alt={item.originalName}
-                                            className="border rounded h-28"
-                                          />
-                                        </a>
-                                      </div>
-                                      <div className="absolute right-[10px] left-auto bottom-[10px]">
-                                        <ul>
-                                          <li className="inline-block p-2">
-                                            <a
-                                              download={item.originalName}
-                                              href={item.filePath}
-                                              className="font-medium"
-                                            >
-                                              <i className="text-lg ri-download-2-line"></i>
-                                            </a>
-                                          </li>
-                                          <li className="relative self-start inline-block p-2 dropdown">
-                                            <a
-                                              className="p-0 text-gray-400 border-0 btn dropdown-toggle "
-                                              href="#"
-                                              role="button"
-                                              data-bs-toggle="dropdown"
-                                              id="dropdownMenuButton17"
-                                            ></a>
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    </li>
-                                  </>
-                                ) : (
-                                  <div
-                                    key={item._id}
-                                    className="flex flex-wrap items-center gap-2 attached-file mt-2"
-                                  >
-                                    <div className="overflow-hidden flex-grow-1">
-                                      <div className="text-start">
-                                        <h5 className="mb-1 truncate text-14 text-white">
-                                          {item.originalName}
-                                        </h5>
-                                        <p className="mb-0  text-white truncate text-13">
-                                          Document File
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="rtl:mr-4 ltr:ml-4">
-                                      <div className="flex items-start gap-2">
-                                        <div>
-                                          <a
-                                            download={item.originalName}
-                                            href={item.filePath}
-                                            className="font-medium"
-                                          >
-                                            <i className="text-lg  text-white ri-download-2-line"></i>
-                                          </a>
-                                        </div>
-                                      </div>
-                                    </div>
+                                      <img
+                                        src={item.filePath}
+                                        alt={item.originalName}
+                                        className="border rounded h-28"
+                                      />
+                                    </a>
                                   </div>
-                                )
-                              )}
+                                </li>
+                              ))}
                             <p
                               className={`mt-1 mb-0 text-xs ${
                                 message.sender._id === userId

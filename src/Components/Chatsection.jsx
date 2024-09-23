@@ -34,17 +34,18 @@ function Chatsection({ onUserClick }) {
       })
       .then((data) => {
         setUsers(data);
-        // const hall1Chat = data.find(
-        //   (chat) => chat.chatName === "HALL 1 (General)"
-        // );
-        //  if (hall1Chat) {
-        //   setActiveChatId(hall1Chat._id);
-        //   onUserClick(hall1Chat); // Pass the user ID to the parent component
-        // }
+        const hall1Chat = data.find(
+          (chat) => chat.chatName === "HALL 1 (General)"
+        );
+        if (hall1Chat) {
+          setActiveChatId(hall1Chat._id);
+          onUserClick(hall1Chat); // Pass the user ID to the parent component
+        }
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filteredUsers = users

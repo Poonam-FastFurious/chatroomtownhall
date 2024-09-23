@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import { Baseurl } from "../Confige";
 
 function GruopList({ onGroupClick }) {
-  const [group, setGroup] = useState([]);
   const [allgroup, setAllgroup] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isaddmemberopen, setIsaddmemberopen] = useState(false);
@@ -60,35 +59,8 @@ function GruopList({ onGroupClick }) {
       console.error("Error fetching chats:", error);
     }
   };
-  const fetchChats = async () => {
-    try {
-      const token = Cookies.get("accessToken");
 
-      // Fetch chats from the API
-      const response = await fetch(Baseurl + "/api/v1/chat/getallchat", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-
-      // Filter groups only
-      const groupChats = data.filter((chat) => chat.isGroupChat);
-
-      setGroup(groupChats);
-    } catch (error) {
-      console.error("Error fetching chats:", error);
-    }
-  };
   useEffect(() => {
-    fetchChats();
     fetchallgroup();
   }, []);
 
@@ -168,7 +140,7 @@ function GruopList({ onGroupClick }) {
       if (response.ok) {
         console.log("Group updated successfully:", result);
         toggleEditModal(); // Close the modal on success
-        fetchChats();
+
         setName(""); // Refresh the chat list after the update
       } else {
         console.error("Error updating group:", result);
@@ -209,7 +181,6 @@ function GruopList({ onGroupClick }) {
       if (response.ok) {
         console.log("Group created successfully:", result);
         toggleModal(); // Close the modal on success
-        fetchChats();
       } else {
         console.error("Error creating group:", result);
       }
@@ -242,7 +213,7 @@ function GruopList({ onGroupClick }) {
       if (response.ok) {
         console.log("Member(s) added successfully:", result);
         setIsaddmemberopen(false); // Close the modal on success
-        fetchChats(); // Refresh the group list after adding members
+        // Refresh the group list after adding members
       } else {
         console.error("Error adding members:", result);
       }
@@ -251,9 +222,6 @@ function GruopList({ onGroupClick }) {
     }
   };
 
-  const filteredGroups = group.filter((g) =>
-    g.chatName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
   const filteredAllGroups = allgroup.filter((g) =>
     g.chatName.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -280,6 +248,12 @@ function GruopList({ onGroupClick }) {
                       Create Groups
                     </button>
                   </div>
+                  <div className="inline-flex items-center overflow-hidden  gap-4   ">
+                    <button className="border-r border-stroke px-4 py-3 shadow-lg rounded-md last-of-type:border-r-0 hover:bg-gray-200 bg-[#CA9352]">
+                      <i className="ri-group-line me-1 ms-0"></i>
+                      all Groups
+                    </button>
+                  </div>
                 </div>
               </div>
             </section>
@@ -294,7 +268,7 @@ function GruopList({ onGroupClick }) {
                     <svg
                       onClick={toggleModal}
                       xmlns="http://www.w3.org/2000/svg"
-                      className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500"
+                      className="w-3 ml-2 cursor-pointer shrink-0 fill-gray-400 hover:fill-red-500 "
                       viewBox="0 0 320.591 320.591"
                     >
                       <path
@@ -537,11 +511,12 @@ function GruopList({ onGroupClick }) {
               className="chat-message-list chat-group-list"
               data-simplebar=""
             >
-              <h1>Personal Group</h1>
+              <h1>All group</h1>
               <ul className="px-5 py-[15px] transition-all ease-in-out rounded gap-4">
-                {filteredGroups.map((chat, index) => (
+                {filteredAllGroups.map((chat, index) => (
                   <li
                     key={index}
+                    onClick={() => handleGroupClick(chat._id)}
                     className="mb-2 px-5 py-[15px] hover:bg-[#CA9352] hover:/50    bg-gray-300   text-white transition-all ease-in-out rounded"
                   >
                     <Link to="#">
@@ -612,51 +587,6 @@ function GruopList({ onGroupClick }) {
                               </li> */}
                             </ul>
                           )}
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div
-              className="chat-message-list chat-group-list"
-              data-simplebar=""
-            >
-              <h1>All Group</h1>
-              <ul className="px-5 py-[15px] transition-all ease-in-out rounded gap-4">
-                {filteredAllGroups.map((chat, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleGroupClick(chat._id)}
-                    className="mb-2 px-5 py-[15px] hover:bg-[#CA9352] hover:/50    bg-gray-300   text-white transition-all ease-in-out rounded"
-                  >
-                    <Link to="#">
-                      <div className="flex items-center">
-                        <div className="">
-                          <div className="flex items-center justify-center rounded-full w-9 h-9 bg-violet-500/20 0/20 ">
-                            <span className="font-medium text-violet-500 ">
-                              {chat.profileImage ? (
-                                <img
-                                  src={chat.profileImage}
-                                  alt="Profile"
-                                  className="w-full h-full object-cover rounded-full"
-                                />
-                              ) : (
-                                <span className="font-medium text-violet-500 group-data-[theme-color=red]:text-red-500">
-                                  {chat.chatName[0].toUpperCase()}
-                                </span>
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex-grow overflow-hidden">
-                          <h5 className="mb-0 text-gray-700 truncate text-14  ml-4">
-                            {chat.chatName}
-                            {/* <span className="rtl:float-left ltr:float-right px-1.5 py-0.5 text-red-500 rounded-full bg-red-500/20 text-11">
-                              +23
-                            </span> */}
-                          </h5>
                         </div>
                       </div>
                     </Link>

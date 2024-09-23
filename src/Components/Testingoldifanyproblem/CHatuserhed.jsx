@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-
 import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import { Baseurl } from "../Confige";
@@ -7,7 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import Sendmessage from "./Sendmessage";
 import { useMessages } from "./Context/MessageContext";
 import bgimage from "../../assets/images/chatbackend.jpeg";
-
 function ChatuserHead({ chat, onProfileClick }) {
   const [chatData, setChatData] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
