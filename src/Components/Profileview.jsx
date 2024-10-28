@@ -56,7 +56,7 @@ function Profileview({ chatId, onClose }) {
   }, [chatId]);
 
   // Determine the name to display
-  const displayName = isGroupChat ? chatName : otherUser?.firstName || "User";
+  const displayName = isGroupChat ? chatName : otherUser?.displayName || "User";
   const email = isGroupChat
     ? "Not available"
     : otherUser?.emailAddress || "Not available";
@@ -179,7 +179,7 @@ function Profileview({ chatId, onClose }) {
                       : "Not available"}
                   </h5>
                 </div>
-                <div className="mt-5">
+                {/* <div className="mt-5">
                   <p className="mb-1 text-gray-500 dark:text-gray-300">
                     Location
                   </p>
@@ -187,7 +187,7 @@ function Profileview({ chatId, onClose }) {
                     {users.find((user) => user._id !== userId)?.address ||
                       "Not available"}
                   </h5>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -126,7 +126,7 @@ function Chatsection({ onUserClick }) {
                         <h5 className="mb-1 text-base truncate">
                           {chat.isGroupChat
                             ? chat.chatName
-                            : `${user?.firstName} ${user?.lastName}`}
+                            : `${user?.displayName} `}
                         </h5>
                         <p className="mb-0 text-gray-500 truncate text-14">
                           {chat.latestMessage && chat.latestMessage.content

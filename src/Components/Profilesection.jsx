@@ -78,20 +78,42 @@ function Profilesection() {
                     <div className="p-5">
                       <div>
                         <div className="ltr:float-right rtl:float-left"></div>
-                        <p className="mb-1 text-gray-500 ">Name</p>
+                        <p className="mb-1 text-gray-500 ">Display Name</p>
                         <h5 className="text-sm ">{user.displayName}</h5>
                       </div>
                       <div className="mt-5">
                         <p className="mb-1 text-gray-500 ">Email</p>
-                        <h5 className="text-sm ">{user.emailAddress}</h5>
+                        <h5 className="text-sm ">
+                          {user?.userId?.emailAddress}
+                        </h5>
                       </div>
                       <div className="mt-5">
                         <p className="mb-1 text-gray-500 ">Time</p>
-                        <h5 className="text-sm ">11:40 AM</h5>
+                        <h5 className="text-sm ">
+                          {new Date(user.createdAt).toLocaleDateString()}
+                        </h5>
                       </div>
                       <div className="mt-5">
-                        <p className="mb-1 text-gray-500 ">Location</p>
-                        <h5 className="text-sm ">{user.address}</h5>
+                        <p className="mb-1 text-gray-500 ">Gender</p>
+                        <h5 className="text-sm ">{user?.userId?.gender}</h5>
+                      </div>
+                      <div className="mt-5">
+                        <p className="mb-1 text-gray-500 ">Skills</p>
+                        <h5 className="text-sm ">{user?.userId?.skills[0]}</h5>
+                      </div>
+                      <div className="mt-5">
+                        <p className="mb-1 text-gray-500 ">Linkedin Profile</p>
+                        <h5 className="text-sm ">
+                          {user?.userId?.linkedinProfile}
+                        </h5>
+                      </div>
+                      <div className="mt-5">
+                        <p className="mb-1 text-gray-500 ">
+                          Honours & Certifications
+                        </p>
+                        <h5 className="text-sm ">
+                          {user?.userId?.honoursAndCertifications[0]}
+                        </h5>
                       </div>
                     </div>
                   </div>

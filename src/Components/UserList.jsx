@@ -117,10 +117,13 @@ function UserList({ onMenuClick }) {
 
                             <div className="flex-grow overflow-hidden ml-4">
                               <h5 className="mb-1 text-base truncate ">
-                                {user.firstName}
+                                {user?.profile?.displayName}
                               </h5>
                               <p className="mb-0 text-gray-500 truncate  text-14">
-                                Hey! there I'm available
+                                {user?.profile?.about &&
+                                user.profile.about.trim() !== ""
+                                  ? user.profile.about
+                                  : "Hey! there I'm available"}
                               </p>
                             </div>
                           </div>

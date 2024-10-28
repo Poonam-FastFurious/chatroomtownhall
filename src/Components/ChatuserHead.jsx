@@ -69,9 +69,7 @@ function ChatuserHead({ chat, onProfileClick }) {
   const chatName = chat?.isGroupChat
     ? chat.chatName
     : chat?.users?.find((user) => user._id !== Cookies.get("userId"))
-        ?.firstName +
-      " " +
-      chat?.users?.find((user) => user._id !== Cookies.get("userId"))?.lastName;
+        ?.displayName + " ";
 
   const chatUserId = chat?.users?.find(
     (user) => user._id !== Cookies.get("userId")

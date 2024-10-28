@@ -116,7 +116,7 @@ function Login() {
                     className="block h-8 mx-auto dark:hidden"
                   />
                   <img
-                    src="
+                    src="https://complaincetownhall.dev-testing-team.tech/assets/logo-no-background-CLjwZW5M.png"
                     alt=""
                     className="hidden h-8 mx-auto logo-light dark:block"
                   />
