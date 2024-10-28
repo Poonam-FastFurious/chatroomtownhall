@@ -106,12 +106,12 @@ function NewLogin() {
               <div className="text-center">
                 <Link to="/" className="block mb-10">
                   <img
-                    src="https://complaincetownhall.brandbell.in/assets/logo-no-background-CLjwZW5M.png"
+                    src="https://complaincetownhall.dev-testing-team.tech/assets/logo-no-background-CLjwZW5M.png"
                     alt=""
                     className="block h-144 mx-auto dark:hidden"
                   />
                   <img
-                    src="https://complaincetownhall.brandbell.in/assets/logo-no-background-CLjwZW5M.png"
+                    src="https://complaincetownhall.dev-testing-team.tech/assets/logo-no-background-CLjwZW5M.png"
                     alt=""
                     className="hidden h-144 mx-auto logo-light dark:block"
                   />
@@ -214,7 +214,7 @@ function NewLogin() {
 
               <div className="mt-10 text-center">
                 <p className="text-gray-700 dark:text-gray-200">
-                  © Chatvia. Crafted with{" "}
+                  © TOWNHALL. Crafted with{" "}
                   <i className="text-red-500 mdi mdi-heart"></i> by CTH
                 </p>
                 {error && (

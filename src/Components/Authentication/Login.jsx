@@ -111,12 +111,12 @@ function Login() {
               <div className="text-center">
                 <Link to="/" className="block mb-10">
                   <img
-                    src="/src/assets/logo-no-background.png"
+                    src="https://complaincetownhall.dev-testing-team.tech/assets/logo-no-background-CLjwZW5M.png"
                     alt=""
                     className="block h-8 mx-auto dark:hidden"
                   />
                   <img
-                    src="/src/assets/logo-no-background.png"
+                    src="
                     alt=""
                     className="hidden h-8 mx-auto logo-light dark:block"
                   />

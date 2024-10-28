@@ -8,7 +8,7 @@ const SocketContext = createContext();
 
 export const useSocket = () => useContext(SocketContext);
 
-const SOCKET_URL = "http://cthbackend.onrender.com";
+const SOCKET_URL = "http://localhost:3000";
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);

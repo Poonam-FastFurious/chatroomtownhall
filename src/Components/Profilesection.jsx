@@ -6,10 +6,12 @@ function Profilesection() {
   const [openSection, setOpenSection] = useState("personalInfo");
   const Id = Cookies.get("userId");
   useEffect(() => {
-    fetch(`${Baseurl}/api/v1/user/currentuser?userId=${Id}`)
+    fetch(`${Baseurl}/api/v1/townhalluser/townhall?userId=${Id}`)
       .then((responce) => responce.json())
       .then((data) => setUser(data.data));
   }, [Id]);
+  console.log("newdisplaya", user);
+
   const toggleSection = (section) => {
     setOpenSection(openSection === section ? null : section);
   };
@@ -27,19 +29,21 @@ function Profilesection() {
               <div className="p-6 text-center border-b border-gray-100 dark:border-zinc-600">
                 <div className="mb-4">
                   <img
-                    src={user.profilePhoto}
+                    src={
+                      user?.userId?.profilePhoto || "path/to/defaultImage.jpg"
+                    }
                     className="w-24 h-24 p-1 mx-auto border border-gray-100 rounded-full dark:border-zinc-800"
                     alt=""
                   />
                 </div>
 
                 <h5 className="mb-1 text-16 text-gray-500 ">
-                  {user.firstName} {user.lastName}
+                  {user.displayName}
                 </h5>
 
                 <h5 className="mb-0 truncate text-14 ltr:block rtl:hidden">
                   <a href="#" className="text-gray-500 ">
-                    {user?.Active && (
+                    {user?.userId?.Active && (
                       <span>
                         Active{" "}
                         <i className="text-green-500 ltr:ml-1 rtl:mr-1 ri-record-circle-fill text-10"></i>
@@ -75,9 +79,7 @@ function Profilesection() {
                       <div>
                         <div className="ltr:float-right rtl:float-left"></div>
                         <p className="mb-1 text-gray-500 ">Name</p>
-                        <h5 className="text-sm ">
-                          {user.firstName} {user.lastName}
-                        </h5>
+                        <h5 className="text-sm ">{user.displayName}</h5>
                       </div>
                       <div className="mt-5">
                         <p className="mb-1 text-gray-500 ">Email</p>
