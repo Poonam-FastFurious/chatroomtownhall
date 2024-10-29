@@ -57,6 +57,8 @@ function Profileview({ chatId, onClose }) {
 
   // Determine the name to display
   const displayName = isGroupChat ? chatName : otherUser?.displayName || "User";
+  const Skill = isGroupChat ? chatName : otherUser?.skills || "no skill";
+  const certificate = isGroupChat ? chatName : otherUser?.honoursAndCertifications || "no skill";
   const email = isGroupChat
     ? "Not available"
     : otherUser?.emailAddress || "Not available";
@@ -170,6 +172,14 @@ function Profileview({ chatId, onClose }) {
                   {email}
                 </div>
                 <div className="mt-5">
+                  <p className="mb-1 text-gray-500 dark:text-gray-300">Skill</p>
+                  {Skill}
+                </div>
+                <div className="mt-5">
+                  <p className="mb-1 text-gray-500 dark:text-gray-300">Honours & Certifications</p>
+                  {certificate}
+                </div>
+                <div className="mt-5">
                   <p className="mb-1 text-gray-500 dark:text-gray-300">Time</p>
                   <h5 className="text-sm dark:text-gray-50">
                     {users.find((user) => user._id !== userId)?.lastActive
@@ -236,11 +246,11 @@ function Profileview({ chatId, onClose }) {
                               <div className="flex-grow">
                                 <div className="text-start">
                                   <h5 className="mb-1 text-sm ml-4">
-                                    {user.firstName}
+                                    {user.displayName}
                                   </h5>
-                                  <p className="mb-0 text-gray-500 text-13 dark:text-gray-300 ml-4">
+                                  {/* <p className="mb-0 text-gray-500 text-13 dark:text-gray-300 ml-4">
                                     {user.emailAddress}
-                                  </p>
+                                  </p> */}
                                 </div>
                               </div>
                               <div>

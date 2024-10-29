@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 
 import Cookies from "js-cookie";
 import { Baseurl } from "../Confige";
 import axios from "axios";
+import Swal from "sweetalert2";
 function Settings() {
   const [isOpen, setIsOpen] = useState(false);
   const [openSection, setOpenSection] = useState(null);
@@ -11,7 +13,6 @@ function Settings() {
   const [refresh, setRefresh] = useState(false);
   const Id = Cookies.get("userId");
 
-  const [isLastSeenEnabled, setIsLastSeenEnabled] = useState(false);
   const [isProfilePrivate, setIsProfilePrivate] = useState(false);
 
   //update profile
@@ -36,7 +37,7 @@ function Settings() {
   const handleSave = async () => {
     try {
       const response = await axios.patch(
-        "http://localhost:3000/api/v1/townhalluser/Update",
+        Baseurl + "/api/v1/townhalluser/Update",
         formData
       );
       alert(response.data.message); // Display success message
@@ -45,6 +46,8 @@ function Settings() {
       alert(error.response?.data?.message || "Something went wrong!"); // Handle error
     }
   };
+
+  //update profile end
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
@@ -53,51 +56,9 @@ function Settings() {
       .then((response) => response.json())
       .then((data) => {
         setUser(data.data);
-        setIsProfilePrivate(data.data.isProfilePrivate);
-        setIsLastSeenEnabled(data.data.isLastSeenEnabled);
+        setIsProfilePrivate(data.data.isPublic);
       });
   }, [Id, refresh]);
-
-  const updateUserPrivacy = () => {
-    fetch(`${Baseurl}/api/v1/user/privacy`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userId: Id,
-        LastSeen: isLastSeenEnabled,
-        ReadReceipt: isLastSeenEnabled,
-        Status: user.Status,
-        profilePhotoVisibility: isProfilePrivate,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setSuccessMessage("Privacy settings updated successfully!");
-          setRefresh(!refresh);
-        } else {
-          alert("Failed to update privacy settings.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("An error occurred while updating privacy settings.");
-      });
-  };
-
-  // const handleToggleChange = () => {
-  //   const newValue = !isLastSeenEnabled;
-  //   setIsLastSeenEnabled(newValue);
-  //   updateUserPrivacy("isLastSeenEnabled", newValue);
-  // };
-
-  const handleProfilePrivacyChange = () => {
-    const newValue = !isProfilePrivate;
-    setIsProfilePrivate(newValue);
-    updateUserPrivacy("isProfilePrivate", newValue);
-  };
 
   const toggleSection = (section) => {
     setOpenSection(openSection === section ? null : section);
@@ -138,6 +99,27 @@ function Settings() {
     const file = e.target.files[0];
     if (file) {
       updateProfilePhoto(file);
+    }
+  };
+  const handleTogglePrivacy = () => {
+    const newPrivacyStatus = !isProfilePrivate;
+    setIsProfilePrivate(newPrivacyStatus);
+    // Optionally, make a request to update the privacy status in your database
+    updateProfilePrivacy(newPrivacyStatus);
+  };
+  const updateProfilePrivacy = async (isPublic) => {
+    try {
+      await axios.patch(Baseurl + "/api/v1/townhalluser/privacy", {
+        userId: Id,
+        isPublic: !isPublic, // Send the opposite value
+      });
+      Swal.fire({
+        icon: "Success",
+        title: "Updated",
+        text: "Profile privacy updated successfully!",
+      });
+    } catch (error) {
+      alert("Failed to update profile privacy.");
     }
   };
   return (
@@ -295,8 +277,8 @@ function Settings() {
                                 type="checkbox"
                                 id="toggleSwitch"
                                 className="sr-only"
-                                checked={isProfilePrivate}
-                                onChange={handleProfilePrivacyChange}
+                                checked={isProfilePrivate} // Reflect the actual public/private status
+                                onChange={handleTogglePrivacy}
                               />
                               <span
                                 className={`block w-8 h-5 rounded-full ${
@@ -317,45 +299,6 @@ function Settings() {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="py-4 border-t border-gray-100/80 ">
-                      <div className="flex items-center">
-                        <div className="flex-grow overflow-hidden">
-                          <h5 className="mb-0 text-gray-700 truncate text-13 ">
-                            Read receipts
-                          </h5>
-                        </div>
-                        <div className="flex items-center">
-                          <label
-                            htmlFor="toggleSwitchread"
-                            className="flex items-center cursor-pointer"
-                          >
-                            <span className="relative">
-                              <input
-                                type="checkbox"
-                                id="toggleSwitchread"
-                                className="sr-only"
-                                checked={isLastSeenEnabled}
-                                onChange={handleToggleChange}
-                              />
-                              <span
-                                className={`block w-8 h-5 rounded-full ${
-                                  isLastSeenEnabled
-                                    ? "bg-blue-500"
-                                    : "bg-gray-300"
-                                }`}
-                              ></span>
-                              <span
-                                className={`absolute w-3 h-3 transition rounded-full ${
-                                  isLastSeenEnabled
-                                    ? "bg-white translate-x-3"
-                                    : "bg-gray-400"
-                                } left-1 top-1`}
-                              ></span>
-                            </span>
-                          </label>
-                        </div>
-                      </div>
-                    </div> */}
                   </div>
                 </div>
               </div>
