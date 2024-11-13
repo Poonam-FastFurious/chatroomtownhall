@@ -258,7 +258,7 @@ function GruopList({ onGroupClick }) {
     g.chatName.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const filteredUsers = userList.filter((user) =>
-    user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+    user.displayName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const handleGroupClick = (group) => {
     onGroupClick(group); // Pass the selected group back to the Home component
@@ -348,7 +348,7 @@ function GruopList({ onGroupClick }) {
                                         : ""
                                     }`}
                                   >
-                                    {user.firstName}
+                                    {user.displayName}
                                   </li>
                                 ))
                               ) : (
@@ -486,7 +486,7 @@ function GruopList({ onGroupClick }) {
                                         : ""
                                     }`}
                                   >
-                                    {user.firstName}
+                                    {user.displayName}
                                   </li>
                                 ))
                               ) : (

@@ -58,10 +58,12 @@ function Profileview({ chatId, onClose }) {
   // Determine the name to display
   const displayName = isGroupChat ? chatName : otherUser?.displayName || "User";
   const Skill = isGroupChat ? chatName : otherUser?.skills || "no skill";
-  const certificate = isGroupChat ? chatName : otherUser?.honoursAndCertifications || "no skill";
-  const email = isGroupChat
-    ? "Not available"
-    : otherUser?.emailAddress || "Not available";
+  const certificate = isGroupChat
+    ? chatName
+    : otherUser?.honoursAndCertifications || "no skill";
+  // const email = isGroupChat
+  //   ? "Not available"
+  //   : otherUser?.emailAddress || "Not available";
 
   // Get the profile image or use a default avatar
   const profileImage = isGroupChat
@@ -167,16 +169,18 @@ function Profileview({ chatId, onClose }) {
                   <p className="mb-1 text-gray-500 dark:text-gray-300">Name</p>
                   <h5 className="text-sm dark:text-gray-50">{displayName}</h5>
                 </div>
-                <div className="mt-5">
+                {/* <div className="mt-5">
                   <p className="mb-1 text-gray-500 dark:text-gray-300">Email</p>
                   {email}
-                </div>
+                </div> */}
                 <div className="mt-5">
                   <p className="mb-1 text-gray-500 dark:text-gray-300">Skill</p>
                   {Skill}
                 </div>
                 <div className="mt-5">
-                  <p className="mb-1 text-gray-500 dark:text-gray-300">Honours & Certifications</p>
+                  <p className="mb-1 text-gray-500 dark:text-gray-300">
+                    Honours & Certifications
+                  </p>
                   {certificate}
                 </div>
                 <div className="mt-5">

@@ -157,11 +157,11 @@ function Profilegroup({ onClose, groupData }) {
                             <div className="flex-grow">
                               <div className="text-start">
                                 <h5 className="mb-1 text-sm ml-4">
-                                  {user.firstName}
+                                  {user.displayName}
                                 </h5>
-                                <p className="mb-0 text-gray-500 text-13 dark:text-gray-300 ml-4">
+                                {/* <p className="mb-0 text-gray-500 text-13 dark:text-gray-300 ml-4">
                                   {user.emailAddress}
-                                </p>
+                                </p> */}
                               </div>
                             </div>
                           </div>
@@ -190,11 +190,9 @@ function Profilegroup({ onClose, groupData }) {
                   />
                   <div className="ml-4">
                     <h6 className="text-sm font-semibold">
-                      {admin?.firstName} {admin?.lastName}
+                      {admin?.displayName} 
                     </h6>
-                    <p className="text-gray-500 text-xs">
-                      {admin?.emailAddress || "No email provided"}
-                    </p>
+                   
                   </div>
                 </div>
               </div>

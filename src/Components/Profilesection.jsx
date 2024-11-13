@@ -84,7 +84,7 @@ function Profilesection() {
                       <div className="mt-5">
                         <p className="mb-1 text-gray-500 ">Email</p>
                         <h5 className="text-sm ">
-                          {user?.userId?.emailAddress}
+                          {user?.email}
                         </h5>
                       </div>
                       <div className="mt-5">

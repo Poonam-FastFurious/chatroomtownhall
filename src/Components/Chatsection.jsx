@@ -45,6 +45,7 @@ function Chatsection({ onUserClick }) {
       .catch((error) => {
         console.error("Error fetching users:", error);
       });
+      
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -53,7 +54,7 @@ function Chatsection({ onUserClick }) {
       const user = chat.users.find((u) => u._id !== userId);
       const chatName = chat.isGroupChat
         ? chat.chatName
-        : user?.firstName || "Unknown User";
+        : user?.displayName || "Unknown User";
 
       // Filter out chats where user is null or undefined
       return user && chatName.toLowerCase().includes(searchQuery.toLowerCase());
@@ -128,7 +129,7 @@ function Chatsection({ onUserClick }) {
                             ? chat.chatName
                             : `${user?.displayName} `}
                         </h5>
-                        <p className="mb-0 text-gray-500 truncate text-14">
+                        <p className="mb-0 text-gray-500 truncate text-14 w-40">
                           {chat.latestMessage && chat.latestMessage.content
                             ? chat.latestMessage.content
                             : "Start a conversation"}

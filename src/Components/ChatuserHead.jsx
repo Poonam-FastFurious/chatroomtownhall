@@ -56,6 +56,10 @@ function ChatuserHead({ chat, onProfileClick }) {
       ? user.profilePhoto
       : "https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg";
   };
+const getUserDisplayName = (senderId) => {
+  const user = allUsers.find((user) => user._id === senderId);
+  return user && user.displayName ? user.displayName : "Unknown User";
+};
 
   const getUserActiveStatus = (userId) => {
     const user = allUsers.find((user) => user._id === userId);
@@ -261,7 +265,7 @@ function ChatuserHead({ chat, onProfileClick }) {
                             message.sender._id === userId ? "text-right" : ""
                           }`}
                         >
-                          {message.sender._id === userId ? "Me" : "Other"}
+                          {message.sender._id === userId ? "Me" : getUserDisplayName(message.sender._id)}
                         </div>
                       </div>
 
@@ -385,7 +389,7 @@ function ChatuserHead({ chat, onProfileClick }) {
                                 chat.sender._id === userId ? "text-right" : ""
                               }`}
                             >
-                              {chat.sender._id === userId ? "Me" : "Other"}
+                              {chat.sender._id === userId ? "Me" : getUserDisplayName(chat.sender._id)}
                             </div>
                           </div>
 

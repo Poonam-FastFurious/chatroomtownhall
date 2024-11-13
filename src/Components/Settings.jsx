@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { Baseurl } from "../Confige";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 function Settings() {
   const [isOpen, setIsOpen] = useState(false);
   const [openSection, setOpenSection] = useState(null);
@@ -36,7 +37,7 @@ function Settings() {
 
   const handleSave = async () => {
     try {
-      const response = await axios.patch(
+      const response = await axios.put(
         Baseurl + "/api/v1/townhalluser/Update",
         formData
       );
@@ -235,7 +236,7 @@ function Settings() {
                 </div>
               </div>
 
-              <div className="mt-2 text-gray-700 accordion-item">
+              {/* <div className="mt-2 text-gray-700 accordion-item">
                 <h2>
                   <button
                     type="button"
@@ -301,7 +302,7 @@ function Settings() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="mt-2 text-gray-700 accordion-item">
                 <h2>
@@ -328,23 +329,35 @@ function Settings() {
                   <div className="p-5">
                     <div className="py-3">
                       <h5 className="mb-0 text-gray-700 text-13 ">
-                        <a href="#" className="block text-body">
+                        <Link
+                          to="https://compliancetownhall.com/contact"
+                          target="_blank"
+                          className="block text-body"
+                        >
                           FAQs
-                        </a>
+                        </Link>
                       </h5>
                     </div>
                     <div className="py-3 border-t border-gray-100 ">
                       <h5 className="mb-0 text-gray-700 text-13 ">
-                        <a href="#" className="text-body d-block">
+                        <Link
+                          to="https://compliancetownhall.com/contact"
+                          target="_blank"
+                          className="text-body d-block"
+                        >
                           Contact
-                        </a>
+                        </Link>
                       </h5>
                     </div>
                     <div className="py-3 border-t border-gray-100 ">
                       <h5 className="mb-0 text-gray-700 text-13 ">
-                        <a href="#" className="text-body d-block">
+                        <Link
+                          to="https://compliancetownhall.com/AboutUs"
+                          target="_blank"
+                          className="text-body d-block"
+                        >
                           Terms & Privacy policy
-                        </a>
+                        </Link>
                       </h5>
                     </div>
                   </div>
