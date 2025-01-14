@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import Cookies from "js-cookie";
 import { Baseurl } from "../../Confige";
 
 function Otp() {
@@ -53,18 +53,15 @@ function Otp() {
       }
 
       // Parse the response JSON
-      const data = await response.json();
+      const result = await response.json();
 
-      localStorage.setItem("userid", data.data.user._id);
-      localStorage.setItem("user", JSON.stringify(data.data.user.name));
-      localStorage.setItem("accessToken", data.data.accessToken);
-      localStorage.setItem("refreshToken", data.data.refreshToken);
-
-      // Store tokens in cookies using js-cookie library
-      document.cookie = `accessToken=${data.data.accessToken}; path=/; `;
-      document.cookie = `refreshToken=${data.data.refreshToken}; path=/; `;
-
-      console.log("Login success:", data); // Handle success response here
+      localStorage.setItem("accessToken", result.data.accessToken);
+      localStorage.setItem("refreshToken", result.data.refreshToken);
+      localStorage.setItem("userId", result.data.user._id);
+      Cookies.set("accessToken", result.data.accessToken);
+      Cookies.set("refreshToken", result.data.refreshToken);
+      Cookies.set("userId", result.data.user._id);
+      console.log("Login success:", result); // Handle success response here
       setSuccessMessage("Login successful!");
       setErrorMessage(""); // Clear any previous error message
 
