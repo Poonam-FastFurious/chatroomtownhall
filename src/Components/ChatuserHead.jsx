@@ -192,13 +192,13 @@ const getUserDisplayName = (senderId) => {
                   <li key={index} className="clear-both py-4">
                     <div
                       className={`flex items-end gap-3 ${
-                        message.sender._id === userId ? "justify-end" : ""
+                        message.sender?._id === userId ? "justify-end" : ""
                       }`}
                     >
-                      {message.sender._id !== userId && (
+                      {message.sender?._id !== userId && (
                         <div>
                           <img
-                            src={getUserImage(message.sender._id)}
+                            src={getUserImage(message.sender?._id)}
                             alt=""
                             className="rounded-full h-9 w-9"
                           />
@@ -209,7 +209,7 @@ const getUserDisplayName = (senderId) => {
                         <div className="flex gap-2 mb-2">
                           <div
                             className={`relative px-5 py-3 rounded-lg ${
-                              message.sender._id === userId
+                              message.sender?._id === userId
                                 ? "bg-[#CA9352] text-gray-700 float-right"
                                 : "bg-gray-500 text-white"
                             }`}
@@ -241,7 +241,7 @@ const getUserDisplayName = (senderId) => {
                               ))}
                             <p
                               className={`mt-1 mb-0 text-xs ${
-                                message.sender._id === userId
+                                message.sender?._id === userId
                                   ? "text-left text-white"
                                   : "text-right text-white/50"
                               }`}
@@ -262,14 +262,14 @@ const getUserDisplayName = (senderId) => {
                         </div>
                         <div
                           className={`font-medium text-gray-700 text-14 ${
-                            message.sender._id === userId ? "text-right" : ""
+                            message.sender?._id === userId ? "text-right" : ""
                           }`}
                         >
-                          {message.sender._id === userId ? "Me" : getUserDisplayName(message.sender._id)}
+                          {message.sender?._id === userId ? "Me" : getUserDisplayName(message.sender?._id)}
                         </div>
                       </div>
 
-                      {message.sender._id === userId && (
+                      {message.sender?._id === userId && (
                         <div>
                           <img
                             src={getUserImage(userId)}
@@ -290,12 +290,12 @@ const getUserDisplayName = (senderId) => {
                       <li className="clear-both py-4" key={index}>
                         <div
                           className={`flex items-end gap-3 ${
-                            chat.sender._id === userId
+                            chat.sender?._id === userId
                               ? "justify-end"
                               : "justify-start"
                           }`}
                         >
-                          {chat.sender._id !== userId && (
+                          {chat.sender?._id !== userId && (
                             <div>
                               <img
                                 src="https://themesbrand.com/chatvia-tailwind/layouts/assets/images/avatar-2.jpg"
@@ -307,14 +307,14 @@ const getUserDisplayName = (senderId) => {
                           <div>
                             <div
                               className={`flex gap-2 mb-2 ${
-                                chat.sender._id === userId
+                                chat.sender?._id === userId
                                   ? "flex-row-reverse"
                                   : ""
                               }`}
                             >
                               <div
                                 className={`relative px-5 py-3 rounded-lg ${
-                                  chat.sender._id === userId
+                                  chat.sender?._id === userId
                                     ? "bg-[#B08D57] text-white rounded-br-none"
                                     : "bg-gray-200 text-black rounded-bl-none"
                                 }`}
@@ -386,14 +386,14 @@ const getUserDisplayName = (senderId) => {
                             </div>
                             <div
                               className={`font-medium text-gray-700 text-14 ${
-                                chat.sender._id === userId ? "text-right" : ""
+                                chat.sender?._id === userId ? "text-right" : ""
                               }`}
                             >
-                              {chat.sender._id === userId ? "Me" : getUserDisplayName(chat.sender._id)}
+                              {chat.sender?._id === userId ? "Me" : getUserDisplayName(chat.sender?._id)}
                             </div>
                           </div>
 
-                          {chat.sender._id === userId && (
+                          {chat.sender?._id === userId && (
                             <div>
                               <img
                                 src={getUserImage(userId)}
