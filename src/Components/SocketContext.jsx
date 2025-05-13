@@ -3,12 +3,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import io from "socket.io-client";
 import Cookies from "js-cookie";
+import { Baseurl } from "../Confige";
 
 const SocketContext = createContext();
 
 export const useSocket = () => useContext(SocketContext);
 
-const SOCKET_URL = "https://backend.compliancetownhall.com";
+const SOCKET_URL = Baseurl;
 
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
