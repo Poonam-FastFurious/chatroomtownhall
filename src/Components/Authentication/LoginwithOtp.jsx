@@ -97,7 +97,6 @@ function LoginwithOtp() {
                       ""
                     );
                   }}
-                  inputMode="numeric"
                 />
               </div>
               {/* Increased the margin-top of the button to create more gap */}
@@ -111,7 +110,8 @@ function LoginwithOtp() {
               <p className="text-sm font-light text-gray-500">
                 Don’t have an account yet?{" "}
                 <Link
-                  to="/register"
+                  target="_blank"
+                  to="https://compliancetownhall.com/membersip"
                   className="font-medium text-[#B18D57] hover:underline"
                 >
                   Sign up
